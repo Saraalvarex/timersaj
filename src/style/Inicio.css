@@ -1,0 +1,46 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('../style/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf') format('truetype');
+  }
+  
+*{
+    background: #F5F5F5;
+}
+
+.Title{
+    position: absolute;
+    width: 269px;
+    height: 58px;
+    left: 37px;
+    top: 63px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 28px;
+    /* or 108% */
+
+
+    color: #000000;
+
+}
+
+.Mensaje{
+    position: absolute;
+    width: 232px;
+    height: 56px;
+    left: 74px;
+    top: 305px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 28px;
+    /* or 147% */
+
+    text-align: center;
+
+    color: #000000;
+}
