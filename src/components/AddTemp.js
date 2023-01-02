@@ -3,31 +3,31 @@ import axios from 'axios';
 import Global from '../Global';
 import { Navigate } from 'react-router-dom';
 
-export default class AddCategoria extends Component {
-//El numero de salas lo necesitamos para la siguiente pantalla
+export default class AddTemp extends Component {
   cajaTiempoRef = React.createRef();
   cajaNombreRef = React.createRef();
-  cajaNumsalasRef = React.createRef();
+  cajaInicioRef = React.createRef();
 
   state = {
     mensaje: "",
     status: false
   }
 
-  crearCategoria = (e) => {
+  crearTemp = (e) => {
     e.preventDefault();
-    var request = "/api/categoriastimer";
+    var request = "/api/timer";
     var url = Global.timer + request;
     var nombre = this.cajanombreRef.current.value;
-    var tiempo = this.cajaTiempoRef.current.value;
+    var inicio = this.cajaInicioRef.current.value;
 
-    var categoria = {
-      idCategoria: 0,
-      categoria: nombre,
-      duracion: tiempo
+    var temp = {
+        idTemporizador: 0,
+        inicio: inicio,
+        idCategoria: 0,
+        pausa: false
     };
 
-    axios.post(url, categoria).then(response => {
+    axios.post(url, temp).then(response => {
       this.setState({
         status: true,
         mensaje: "Periodo insertado"
@@ -44,19 +44,22 @@ export default class AddCategoria extends Component {
             <h1>PERIODOS DE TIEMPO</h1>
             
             <form style={{width: "500px", margin: "0 auto"}}>
-                <label>Nombre categoría: </label>
+                <label>Nombre: </label>
                 <input type="text" className='form-control'
                 ref={this.cajaNombreRef} required/><br/>
 
-                <label>Tiempo (minutos): </label>
-                <input type="number" className='form-control'
-                ref={this.cajaTiempoRef} required/><br/>
+                <label>Inicio: </label>
+                <input type="datetime-local" className='form-control'
+                ref={this.cajaInicioRef} required/><br/>
+                <label>Fin: </label>
+                <input type="datetime-local" className='form-control'
+                ref={this.cajaFinRef} required/><br/>
 
-                <label>Nº de salas: </label>
+                <label>Nº de categorías de temporizadores: </label>
                 <input type="number" className='form-control'
-                ref={this.cajaNumsalasRef} required/><br/>
+                ref={this.cajaNumeroRef} required/><br/>
 
-              <button className='btn btn-info' onClick={this.crearCategoria}>
+              <button className='btn btn-info' onClick={this.crearEvento}>
                 Siguiente
               </button>
 
