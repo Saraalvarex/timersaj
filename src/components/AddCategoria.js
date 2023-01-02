@@ -36,7 +36,7 @@ export default class AddCategoria extends Component {
   }
 
   render() {
-    if (this.state.status == true){
+    if (this.state.status === true){
       return (<Navigate to="/"/>);
     }
     return (

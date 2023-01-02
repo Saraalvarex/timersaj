@@ -8,45 +8,68 @@ export default class AddSala extends Component {
 
   state = {
     mensaje: "",
-    status: false
+    status: false,
+    salas: [] // Array para almacenar los nombres de las salas
   }
 
-  crearSala = (e) => {
+  enviarSalas = (e) => {
     e.preventDefault();
+    console.log(e.target.value)
     var nombre = this.cajaNombreRef.current.value;
-    var request = "/api/salas/createsala/"+nombre;
-    var url = Global.timer + request;
+    // Agregamos el nombre de la sala al array
+    this.setState({ salas: nombre});
+    console.log(this.state.salas)
+  }
 
-    axios.post(url).then(response => {
-      this.setState({
-        status: true,
-        mensaje: "Sala insertada"
-      });
-    });
+  crearSalas = (e) => {
+    console.log(e.target.value)
+    // var request = "api/salas/createsala";
+    // var url = Global.timer + request;
+    // axios.post(url, { salas: this.state.salas }).then(response => {
+    //   this.setState({
+    //     status: true,
+    //     mensaje: "Salas insertadas"
+    //   });
+    // });
   }
 
   render() {
-    if (this.state.status == true){
-      return (<Navigate to="/"/>);
+    var num = this.props.numsalas;
+    console.log(num);
+    const inputs = [];
+
+    for (let i = 0; i < num; i++) {
+      inputs.push(
+        <div key={i}>
+          <label>Nombre de sala {i + 1}: </label>
+          <input
+            type="text"
+            className="form-control"
+            ref={this.cajaNombreRef}
+            onBlur={this.enviarSalas}
+            required
+          />
+          <br/>
+        </div>
+      );
+    }
+
+    if (this.state.status === true) {
+      return <Navigate to="/" />;
     }
     return (
-        <div>
-            <h1>NOMBRES DE SALAS</h1>
-            
-            <form style={{width: "500px", margin: "0 auto"}}>
-                <label>Nombre de sala: </label>
-                <input type="text" className='form-control'
-                ref={this.cajaNombreRef} required/><br/>
+      <div>
+        <h1>NOMBRES DE SALAS</h1>
 
-              <button className='btn btn-info' onClick={this.crearSala}>
-                Siguiente
-              </button>
-            </form>
+        <form style={{ width: "500px", margin: "0 auto" }}>
+          {inputs}
+          <button className="btn btn-info" onClick={this.crearSalas}>
+            Siguiente
+          </button>
+        </form>
 
-            <h2 style={{color:"blue"}}>
-              {this.state.mensaje}
-            </h2>
-        </div>
-    )
+        <h2 style={{ color: "blue" }}>{this.state.mensaje}</h2>
+      </div>
+    );
   }
 }

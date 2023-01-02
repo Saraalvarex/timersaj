@@ -40,8 +40,8 @@ export default class AddEvento extends Component {
   }
 
   render() {
-    if (this.state.status == true){
-      return (<Navigate to="/creartemporizadorpag2"/>);
+    if (this.state.status === true){
+      return (<Navigate to={"/creartemporizadorpag2/"+this.cajaNumeroRef.current.value}/>);
     }
     return (
         <div>
@@ -63,7 +63,7 @@ export default class AddEvento extends Component {
                 ref={this.cajaFinRef} required/><br/>
                 </div>
 
-                <label>Nº de categorías de temporizadores: </label>
+                <label>Nº de salas: </label>
                 <input type="number" className='form-control'
                 ref={this.cajaNumeroRef} required/><br/>
 
