@@ -17,13 +17,18 @@ export default class Router extends Component {
       return (<AddSala numsalas={numsalas}></AddSala>)
     }
 
+    function AddCategoriaElement(){
+      var {numcategorias} = useParams();
+      return (<AddCategoria numcategorias={numcategorias}></AddCategoria>)
+    }
+
     return (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Inicio/>}/>
           <Route path='/creartemporizadorpag1/' element={<AddEvento/>}/>
           <Route path='/creartemporizadorpag2/:numsalas' element={<AddSalaElement/>}/>
-          <Route path='/creartemporizadorpag3/' element={<AddCategoria/>}/>
+          <Route path='/creartemporizadorpag3/:numcategorias' element={<AddCategoriaElement/>}/>
           <Route path='/addempresa' element={<AddEmpresa/>}/>
           <Route path='/eventos' element={<Eventos/>}/>
         </Routes>

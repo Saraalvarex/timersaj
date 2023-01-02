@@ -4,72 +4,74 @@ import Global from '../Global';
 import { Navigate } from 'react-router-dom';
 
 export default class AddSala extends Component {
-  cajaNombreRef = React.createRef();
+
+    cajaNumcategoriasRef = React.createRef();
+
+    constructor(props) {
+        super(props);
+        this.cajaNombreRefs = [];
+        for (let i = 0; i < props.numsalas; i++) {
+          this.cajaNombreRefs.push(React.createRef());
+        }
+      }
 
   state = {
     mensaje: "",
-    status: false,
-    salas: [] // Array para almacenar los nombres de las salas
+    status: false
   }
 
-  enviarSalas = (e) => {
+  crearSala = (e) => {
     e.preventDefault();
-    console.log(e.target.value)
-    var nombre = this.cajaNombreRef.current.value;
-    // Agregamos el nombre de la sala al array
-    this.setState({ salas: nombre});
-    console.log(this.state.salas)
-  }
+    // Obtengo los valores de los elementos de entrada
+    var values = this.cajaNombreRefs.map(ref => ref.current.value);
+    console.log(values); // [valorDeEntrada1, valorDeEntrada2, ...]
 
-  crearSalas = (e) => {
-    console.log(e.target.value)
-    // var request = "api/salas/createsala";
-    // var url = Global.timer + request;
-    // axios.post(url, { salas: this.state.salas }).then(response => {
-    //   this.setState({
-    //     status: true,
-    //     mensaje: "Salas insertadas"
-    //   });
-    // });
+    var request = "api/salas/createsala/";
+    var url = Global.timer;
+    //Hago post para cada valor del array
+    values.forEach(value => {
+        axios.post(url + request + value).then(response => {
+          this.setState({
+            status: true,
+            mensaje: "Sala insertada"
+          });
+        });
+      });
   }
 
   render() {
-    var num = this.props.numsalas;
-    console.log(num);
+    var numsalas = this.props.numsalas
     const inputs = [];
 
-    for (let i = 0; i < num; i++) {
-      inputs.push(
-        <div key={i}>
-          <label>Nombre de sala {i + 1}: </label>
-          <input
-            type="text"
-            className="form-control"
-            ref={this.cajaNombreRef}
-            onBlur={this.enviarSalas}
-            required
-          />
-          <br/>
-        </div>
-      );
-    }
+    for (let i = 0; i < numsalas; i++) {
+        inputs.push(
+            <label key={i}>Nombre de sala {i+1}: </label>,<input type="text" className='form-control' key={i} ref={this.cajaNombreRefs[i]} required/>, <br/>
+        );
+      }
 
-    if (this.state.status === true) {
-      return <Navigate to="/" />;
+    if (this.state.status === true){
+        return (<Navigate to={"/creartemporizadorpag3/"+this.cajaNumcategoriasRef.current.value}/>);
     }
     return (
-      <div>
-        <h1>NOMBRES DE SALAS</h1>
+        <div>
+            <h1>NOMBRES DE SALAS</h1>
+            
+            <form style={{width: "500px", margin: "0 auto"}}>
+                {inputs}
 
-        <form style={{ width: "500px", margin: "0 auto" }}>
-          {inputs}
-          <button className="btn btn-info" onClick={this.crearSalas}>
-            Siguiente
-          </button>
-        </form>
+            <label>Nº de categorías de temporizadores: </label>
+            <input type="number" className='form-control'
+            ref={this.cajaNumcategoriasRef} required/><br/>
 
-        <h2 style={{ color: "blue" }}>{this.state.mensaje}</h2>
-      </div>
-    );
+              <button className='btn btn-info' onClick={this.crearSala}>
+                Siguiente
+              </button>
+            </form>
+
+            <h2 style={{color:"blue"}}>
+              {this.state.mensaje}
+            </h2>
+        </div>
+    )
   }
 }

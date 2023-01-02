@@ -4,62 +4,80 @@ import Global from '../Global';
 import { Navigate } from 'react-router-dom';
 
 export default class AddCategoria extends Component {
-//El numero de salas lo necesitamos para la siguiente pantalla
-  cajaTiempoRef = React.createRef();
-  cajaNombreRef = React.createRef();
-  cajaNumsalasRef = React.createRef();
 
   state = {
+    categorias: [],
+    nombre : "",
+    tiempo : "",
     mensaje: "",
     status: false
   }
 
-  crearCategoria = (e) => {
-    e.preventDefault();
-    var request = "/api/categoriastimer";
-    var url = Global.timer + request;
-    var nombre = this.cajanombreRef.current.value;
-    var tiempo = this.cajaTiempoRef.current.value;
-
-    var categoria = {
-      idCategoria: 0,
-      categoria: nombre,
-      duracion: tiempo
-    };
-
-    axios.post(url, categoria).then(response => {
-      this.setState({
-        status: true,
-        mensaje: "Periodo insertado"
+  crearCategoria = (event) => {
+    event.preventDefault();
+  
+    const nombre = this.state.nombre;
+    const tiempo = this.state.tiempo;
+  
+    if (nombre === "" || tiempo === "") {
+      this.setState({ mensaje: "Por favor, introduce un nombre y un tiempo válidos." });
+      return;
+    }
+  
+    const categoria = { idCategoria: tiempo+1, categoria: nombre, duracion: tiempo };
+    const categorias = [...this.state.categorias, categoria];
+  
+    //Hago post para cada valor del array
+    categorias.forEach(categoria => {
+      var request = "api/categoriastimer/";
+      var url = Global.timer + request;
+      axios.post(url, categoria).then(response => {
+        console.log(response)
+        this.setState({
+          status: true,
+          mensaje: "Categoría insertada"
+        });
       });
     });
+
+    this.setState({ categorias: categorias, mensaje: "Categoría agregada correctamente." });
+  }
+
+  handleNameChange = (event) => {
+    this.setState({ nombre: event.target.value });
+  }
+
+  handleTimeChange = (event) => {
+    this.setState({ tiempo: event.target.value });
   }
 
   render() {
+    var numcategorias = this.props.numcategorias
+    const inputs = [];
+
+    for (let i = 0; i < numcategorias; i++) {
+        inputs.push(
+            <label key={i}>Nombre de categoria {i+1}: </label>,
+            <input type="text" className='form-control' onChange={this.handleNameChange} />,
+            <label key={i}>Tiempo (minutos)</label>,
+            <input type="number" className='form-control' onChange={this.handleTimeChange} />,
+            <br/>
+        );
+      }
+
     if (this.state.status === true){
-      return (<Navigate to="/"/>);
+        // return (<Navigate to={"/creartemporizadorpag4/"+this.cajaNumcategoriasRef.current.value}/>);
     }
     return (
         <div>
-            <h1>PERIODOS DE TIEMPO</h1>
+            <h1>CATEGORIAS DE TIEMPO</h1>
             
             <form style={{width: "500px", margin: "0 auto"}}>
-                <label>Nombre categoría: </label>
-                <input type="text" className='form-control'
-                ref={this.cajaNombreRef} required/><br/>
-
-                <label>Tiempo (minutos): </label>
-                <input type="number" className='form-control'
-                ref={this.cajaTiempoRef} required/><br/>
-
-                <label>Nº de salas: </label>
-                <input type="number" className='form-control'
-                ref={this.cajaNumsalasRef} required/><br/>
+                {inputs}
 
               <button className='btn btn-info' onClick={this.crearCategoria}>
                 Siguiente
               </button>
-
             </form>
 
             <h2 style={{color:"blue"}}>
