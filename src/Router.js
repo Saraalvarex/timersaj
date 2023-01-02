@@ -7,6 +7,7 @@ import Eventos from './components/Eventos';
 import Inicio from './components/Inicio';
 import AddEvento from './components/AddEvento';
 import AddSala from './components/AddSala';
+import Temporizador from './components/Temporizador';
 
 
 export default class Router extends Component {
@@ -29,6 +30,7 @@ export default class Router extends Component {
           <Route path='/creartemporizadorpag1/' element={<AddEvento/>}/>
           <Route path='/creartemporizadorpag2/:numsalas' element={<AddSalaElement/>}/>
           <Route path='/creartemporizadorpag3/:numcategorias' element={<AddCategoriaElement/>}/>
+          <Route path='/temporizador' element={<Temporizador/>}/>
           <Route path='/addempresa' element={<AddEmpresa/>}/>
           <Route path='/eventos' element={<Eventos/>}/>
         </Routes>

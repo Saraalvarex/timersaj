@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import '../style/Inicio.css';
 import Global from "../Global";
 import axios from "axios";
-
-
+import {NavLink} from "react-router-dom";
 
 export default class Inicio extends Component {
 
@@ -25,7 +24,7 @@ export default class Inicio extends Component {
   }
 
   Get_Categorias = () => {
-    var request = "/api/categoriastimer";
+    var request = "api/categoriastimer";
     var url = Global.timer + request;
     axios.get(url).then(res=> {
       this.setState({
@@ -44,7 +43,7 @@ export default class Inicio extends Component {
     return (
       <div className="container">
         <span className="display-5">TEMPORIZADORES</span>
-        <span className="Mensaje container-fluid">No tienes temporizadores <a href=".">Añade uno ahora</a></span>
+        <span className="Mensaje container-fluid">No tienes temporizadores <NavLink to={"/creartemporizadorpag1/"} className="">Añade uno ahora</NavLink></span>
       </div>
     );
     }else{

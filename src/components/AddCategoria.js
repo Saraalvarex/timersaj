@@ -12,7 +12,6 @@ export default class AddCategoria extends Component {
     mensaje: "",
     status: false
   }
-
   crearCategoria = (event) => {
     event.preventDefault();
   
