@@ -41,11 +41,11 @@ export default class AddEvento extends Component {
 
   render() {
     if (this.state.status === true){
-      return (<Navigate to={"/creartemporizadorpag2/"+this.cajaNumeroRef.current.value}/>);
+      return (<Navigate to={"/creartemporizadorpag2"}/>);
     }
     return (
         <div>
-            <h1>EVENTO</h1>
+            <h1>CREAR EVENTO</h1>
             
             <form style={{width: "500px", margin: "0 auto"}}>
                 <label>Nombre: </label>
@@ -62,10 +62,10 @@ export default class AddEvento extends Component {
                 <input type="datetime-local" className='form-control'
                 ref={this.cajaFinRef} required/><br/>
                 </div>
-
-                <label>Nº de salas: </label>
+                <br/> 
+                {/* <label>Nº de salas: </label>
                 <input type="number" className='form-control'
-                ref={this.cajaNumeroRef} required/><br/>
+                ref={this.cajaNumeroRef} required/>*/}
 
               <button className='btn btn-info' onClick={this.crearEvento}>
                 Siguiente
