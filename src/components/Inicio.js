@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import '../style/Inicio.css';
 import Global from "../Global";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 
 
 
@@ -34,6 +34,7 @@ export default class Inicio extends Component {
       });
     });
   }
+
   
   componentDidMount = () => {
     this.Get_Eventos();
@@ -45,26 +46,29 @@ export default class Inicio extends Component {
     return (
       <div className="container">
         <span className="display-5">TEMPORIZADORES</span>
-        <span className="Mensaje container-fluid">No tienes temporizadores <a href=".">Añade uno ahora</a></span>
+        <span className="Mensaje container-fluid">No tienes temporizadores <NavLink to="/creartemporizadorpag1">Añade uno ahora</NavLink></span>
       </div>
     );
     }else{
       return (
-      <div className="container">
-        <span className="display-5">TEMPORIZADORES</span>
+      <div className="container-fluid">
+        <div className="container-fluid d-flex justify-content-around mt-3">
+          <span className="display-3">TEMPORIZADORES</span>
+          <NavLink to="/creartemporizadorpag1" className="btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+          </svg>
+          </NavLink>
+        </div>
         <div className="container-fluid">
           {
             this.state.eventos.map((temp, index)=> {
               return(
-                <div className="card mt-4" key={index}>
-                  <div className="card-header">
-                    <span className="card-title d-flex justify-content-center">{temp.nombreEvento}</span>
-                    <button type="button" class="btn btn-outline-success">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"/>
-                    </svg>
-                    </button>
-                  </div>
+                <div className="card mt-3 mb-2 shadow" key={index}>
+                  <button className="card-header btn btn-light" >
+                    <span className="card-title d-flex justify-content-center text-decoration-underline fw-bolder">{temp.nombreEvento}</span>
+                  </button>
                   <div className="row card-body">
                     <div className="col">
                       <b>Categorias</b>
