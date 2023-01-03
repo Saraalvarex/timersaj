@@ -9,7 +9,9 @@ const formatTime = (time) =>{
     return minutes + ':' + seconds
 }
 
+
 export default function CountDown({seconds}) {
+    console.log(seconds)
     const [countdown, setCountdown] = useState(seconds)
     const timerId = useRef();
 
