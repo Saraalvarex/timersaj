@@ -17,7 +17,7 @@ export default class AddEvento extends Component {
 
   crearEvento = (e) => {
     e.preventDefault();
-    var request = "api/eventos";
+    var request = "/api/eventos";
     var url = Global.timer + request;
     // var numero = parseInt(this.cajaNumeroRef.current.value);
     var nombre = this.cajaNombreRef.current.value;
