@@ -8,15 +8,16 @@ import Inicio from './components/Inicio';
 import AddEvento from './components/AddEvento';
 import AddSala from './components/AddSala';
 import Temporizador from './components/Temporizador';
+import AddTemp from './components/AddTemp';
 
 
 export default class Router extends Component {
   render() {
 
-    // function AddCategoriaElement(){
-    //   var {numcategorias} = useParams();
-    //   return (<AddCategoria numcategorias={numcategorias}></AddCategoria>)
-    // }
+    function TemporizadorElement(){
+      var {idsala} = useParams();
+      return (<Temporizador idsala={idsala}></Temporizador>)
+    }
 
     return (
       <BrowserRouter>
@@ -25,7 +26,8 @@ export default class Router extends Component {
           <Route path='/creartemporizadorpag1' element={<AddEvento/>}/>
           <Route path='/creartemporizadorpag2' element={<AddSala/>}/>
           <Route path='/creartemporizadorpag3' element={<AddCategoria/>}/>
-          {/* <Route path='/creartemporizadorpag3/:numcategorias' element={<AddCategoriaElement/>}/> */}
+          <Route path='/creartemporizadorpag4' element={<AddTemp/>}/>
+          <Route path='/temporizador/:idsala' element={<TemporizadorElement/>}/>
           <Route path='/temporizador' element={<Temporizador/>}/>
           <Route path='/addempresa' element={<AddEmpresa/>}/>
           <Route path='/eventos' element={<Eventos/>}/>
