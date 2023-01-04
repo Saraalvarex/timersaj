@@ -6,13 +6,16 @@ import CountDown from './Timer/Countdown';
 import DateNow from './Timer/DateNow';
 
 export default class Temporizador extends Component {
-    
+  
   state = {
-    timers: [],
+    // timers: [],
+    iniciosTimers: [],
     mensaje: "",
-    status: false
+    status: false,
+    datenow: localStorage.getItem('time')
   }
 
+  //Cambia el formato "2023-01-18T09:00:00" a 09:00:00
   changeFormat = (dateString) => {
     const date = new Date(dateString);
     const hours = date.getHours();
@@ -38,32 +41,38 @@ export default class Temporizador extends Component {
   }
 
   getTimerEventoSala = () => {
-    var request = "api/timereventos/eventossala/2";
+    //Recoger parametros para coger el id de la sala
+    var request = "/api/timereventos/eventossala/2";
     var url = Global.timer + request;
 
     axios.get(url).then(res => {
         var timers = res.data;
+        var iniciosTimersAux = []
+        console.log(timers)
+        //La sala y tiempo inicio y tiempo fin debería ser común en todos los temps de una sala
         var sala = "";
         var tiempoTotal = 0;
-        var categorias = []
         var inicio = 0;
-        var duracion = 0;
-        console.log(timers)
+        // var duracion = 0;
+        // console.log(res.data)
 
         timers.forEach(timer => {
             sala = timer.sala;
-            categorias.push(timer.categoria);
-            // console.log(timer.inicioEvento);
             inicio = new Date(timer.inicioEvento);
-            duracion = timer.duracion;
-            console.log(duracion)
+            //Meto un array todos los inicios (hora) de los timers de una sala
+            iniciosTimersAux.push(this.changeFormat(timer.inicioTimer));
+            //duracion deberia ser un array
+            //duracion = timer.duracion;
             const fin = new Date(timer.finEvento);
-            tiempoTotal = (fin.getTime() - inicio.getTime()) / 3600000; // 5
+            tiempoTotal = (fin.getTime() - inicio.getTime()) / 3600000; // 5.5
         });
+      //Si iniciosTimersAux[i]==this.state.datenow empieza el countdown
+      console.log(iniciosTimersAux)
+      console.log(this.state.datenow)
 
       this.setState({
+        iniciosTimers : iniciosTimersAux,
         sala: sala,
-        categorias: categorias,
         tiempoTotal: tiempoTotal,
         status: true,
         inicio: inicio
@@ -71,17 +80,28 @@ export default class Temporizador extends Component {
     });
   }
 
+
+
+  //Cuando cambio de sala
   componentDidMount = () => {
     this.getTimerEventoSala();
   }
 
   render() {
+    // var renderCountDown = (minutes) => {
+    //   if (this.state.datenow === this.state.iniciosTimersAux[0]) {
+    //     return <CountDown minutes={15} />
+    //   }
+    // }
     return (
         <div>
-            <p>Sala {this.state.sala}</p>
-              <CountDown seconds={this.state.inicio}/>
+            <h4>Sala <strong>{this.state.sala}</strong></h4>
+              {/* <CountDown minutes={this.state.duracion}/> */}
+              <CountDown minutes={5}/>
+              {/* {renderCountDown()} */}
+              {/* <InicioTemp horaactual={savedTime} inicioTemp={savedTime}/> duracion={15} */}
               <DateNow/>
-            <h1>Tiempo total {this.state.tiempoTotal}</h1>
+            <h1>Tiempo total del evento: {this.state.tiempoTotal}</h1>
         </div>
     )
   }
