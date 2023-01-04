@@ -4,8 +4,6 @@ import Global from "../Global";
 import axios from "axios";
 import { NavLink, Navigate } from "react-router-dom";
 
-
-
 export default class Inicio extends Component {
 
   state = {
@@ -26,7 +24,7 @@ export default class Inicio extends Component {
   }
 
   Get_Categorias = () => {
-    var request = "/api/categoriastimer";
+    var request = "api/categoriastimer";
     var url = Global.timer + request;
     axios.get(url).then(res=> {
       this.setState({
