@@ -1,52 +1,38 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import Global from '../Global';
-import axios from 'axios';
+import React, { Component } from 'react'
+import { NavLink } from 'react-router-dom'
 
-import './../App.css';
-
-export default class MenuSalas extends Component {
-
-  state = {
-    salas: [],
-    statusSalas: false
-  }
-  Get_Salas = () => {
-    var request = "/api/salas";
-    var url = Global.timer + request;
-    axios.get(url).then(res=>{
-      this.setState({
-        salas: res.data,
-        statusSalas: true
-      })
-    })
-  }
-
-  componentDidMount = () => {
-    //this.Get_Salas();
-  }
-
+export default class Menu extends Component {
   render() {
-    return(
-      <div className='container-fluid'>
-        <div className='d-flex justify-content-between mt-3'>
-          <NavLink to="/">Volver</NavLink>
-          <h1 className='display-2 '>Tus salas</h1>
-        </div>
-        <hr/>
-        <div className='container-fluid'>
-          {
-          this.state.statusSalas === true ?
-          (
-          <div className=''>
-
+    return (
+        <nav className="navbar navbar-expand-lg bg-body-tertiary shadow">
+        <div className="container-fluid">
+          <NavLink className="navbar-brand" to="/">Temporizadores App</NavLink>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/salas">Mis Salas</NavLink>
+              </li>
+              <li className="nav-item dropdown">
+                <NavLink className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Configurar Timer
+                </NavLink>
+                <ul className="dropdown-menu">
+                  <li><a className="dropdown-item" href="/creartemporizadorpag1">Crear Evento</a></li>
+                  <li><a className="dropdown-item" href=".">Administrar Timers</a></li>
+                  <li><hr className="dropdown-divider"/></li>
+                  <li><a className="dropdown-item" href=".">Más opciones</a></li>
+                </ul>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link">Identificarse</NavLink>
+              </li>
+            </ul>
           </div>
-          )
-          :
-          (<h3>Cargando tus salas</h3>)
-          }
         </div>
-      </div>
+      </nav>
     )
   }
 }

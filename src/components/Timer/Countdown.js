@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 //Lo formatea a horas:min:segundos
 const formatTime = (time) =>{
+    if (time <= 0) return "00:00";
     let minutes = Math.floor(time / 60);
     let seconds = Math.floor(time - minutes * 60);
 
@@ -26,7 +27,6 @@ export default function CountDown({minutes}) {
     useEffect(()=> {
         if(countdown <= 0){
             clearInterval(timerId.current);
-            alert("FIN");
         }
     }, [countdown])
 

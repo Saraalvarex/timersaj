@@ -42,23 +42,24 @@ export default class Temporizador extends Component {
 
   getTimerEventoSala = () => {
     //Recoger parametros para coger el id de la sala
-    var request = "/api/timereventos/eventossala/2";
+    var request = "/api/timereventos/eventossala/"+this.props.idsala;
     var url = Global.timer + request;
 
     axios.get(url).then(res => {
         var timers = res.data;
         var iniciosTimersAux = []
-        console.log(timers)
+        //console.log(timers) -> muestra [] sin nada
         //La sala y tiempo inicio y tiempo fin debería ser común en todos los temps de una sala
         var sala = "";
         var tiempoTotal = 0;
         var inicio = 0;
-        // var duracion = 0;
+        var duracion = 0;
         // console.log(res.data)
 
         timers.forEach(timer => {
             sala = timer.sala;
             inicio = new Date(timer.inicioEvento);
+            duracion = parseInt(timer.duracion);
             //Meto un array todos los inicios (hora) de los timers de una sala
             iniciosTimersAux.push(this.changeFormat(timer.inicioTimer));
             //duracion deberia ser un array
@@ -67,12 +68,14 @@ export default class Temporizador extends Component {
             tiempoTotal = (fin.getTime() - inicio.getTime()) / 3600000; // 5.5
         });
       //Si iniciosTimersAux[i]==this.state.datenow empieza el countdown
-      console.log(iniciosTimersAux)
-      console.log(this.state.datenow)
+      //console.log(iniciosTimersAux)
+      //console.log(this.state.datenow)
+      
 
       this.setState({
         iniciosTimers : iniciosTimersAux,
         sala: sala,
+        duracion: duracion,
         tiempoTotal: tiempoTotal,
         status: true,
         inicio: inicio
@@ -94,10 +97,10 @@ export default class Temporizador extends Component {
     //   }
     // }
     return (
-        <div>
+        <div className="container-fluid mt-4">
             <h4>Sala <strong>{this.state.sala}</strong></h4>
               {/* <CountDown minutes={this.state.duracion}/> */}
-              <CountDown minutes={5}/>
+              <CountDown minutes={this.state.duracion}/>
               {/* {renderCountDown()} */}
               {/* <InicioTemp horaactual={savedTime} inicioTemp={savedTime}/> duracion={15} */}
               <DateNow/>

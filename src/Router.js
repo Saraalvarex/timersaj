@@ -9,7 +9,8 @@ import AddEvento from './components/AddEvento';
 import AddSala from './components/AddSala';
 import Temporizador from './components/Temporizador';
 import AddTemp from './components/AddTemp';
-import MenuSalas from './components/Menu';
+import ListaTemporizadores from './components/ListaTemporizadores';
+import Menu from './components/Menu';
 
 export default class Router extends Component {
   render() {
@@ -21,6 +22,7 @@ export default class Router extends Component {
 
     return (
       <BrowserRouter>
+      <Menu/>
         <Routes>
           <Route path="/" element={<Inicio/>}/>
           <Route path='/creartemporizadorpag1' element={<AddEvento/>}/>
@@ -29,7 +31,7 @@ export default class Router extends Component {
           <Route path='/creartemporizadorpag4' element={<AddTemp/>}/>
           <Route path='/temporizador/:idsala' element={<TemporizadorElement/>}/>
           <Route path='/temporizador' element={<Temporizador/>}/>
-          <Route path='/salas' element={<MenuSalas/>}/>
+          <Route path='/salas' element={<ListaTemporizadores/>}/>
           <Route path='/addempresa' element={<AddEmpresa/>}/>
           <Route path='/eventos' element={<Eventos/>}/>
         </Routes>
