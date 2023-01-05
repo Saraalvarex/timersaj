@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Global from '../Global';
 import { Navigate } from 'react-router-dom';
-import CountDown from './Timer/Countdown';
+import CountDownIndv from './Timer/CountdownIndv';
 import DateNow from './Timer/DateNow';
 
 export default class Temporizador extends Component {
@@ -14,6 +14,8 @@ export default class Temporizador extends Component {
     status: false,
     datenow: localStorage.getItem('time')
   }
+
+  var 
 
   //Cambia el formato "2023-01-18T09:00:00" a 09:00:00
   changeFormat = (dateString) => {
@@ -48,13 +50,12 @@ export default class Temporizador extends Component {
     axios.get(url).then(res => {
         var timers = res.data;
         var iniciosTimersAux = []
-        //console.log(timers) -> muestra [] sin nada
         //La sala y tiempo inicio y tiempo fin debería ser común en todos los temps de una sala
         var sala = "";
         var tiempoTotal = 0;
         var inicio = 0;
         var duracion = 0;
-        // console.log(res.data)
+
 
         timers.forEach(timer => {
             sala = timer.sala;
@@ -62,15 +63,14 @@ export default class Temporizador extends Component {
             duracion = parseInt(timer.duracion);
             //Meto un array todos los inicios (hora) de los timers de una sala
             iniciosTimersAux.push(this.changeFormat(timer.inicioTimer));
-            //duracion deberia ser un array
+            //duracion deberia ser un array 
             //duracion = timer.duracion;
             const fin = new Date(timer.finEvento);
             tiempoTotal = (fin.getTime() - inicio.getTime()) / 3600000; // 5.5
         });
       //Si iniciosTimersAux[i]==this.state.datenow empieza el countdown
-      //console.log(iniciosTimersAux)
-      //console.log(this.state.datenow)
-      
+
+        this.ChekDates(iniciosTimersAux[0], duracion);
 
       this.setState({
         iniciosTimers : iniciosTimersAux,
@@ -83,6 +83,17 @@ export default class Temporizador extends Component {
     });
   }
 
+  //Esta funcion comprueba la hora
+ ChekDates = (inicioProgramado, duracion) => {
+  console.log("Hola"+inicioProgramado);
+  console.log(this.state.iniciosTimers);
+    if(this.state.iniciosTimers === inicioProgramado){
+      localStorage.setItem("Comenzar", true);//Esto en App.js comprueba si ya se puede empezar a cronometrar
+      localStorage.setItem("Estimate duration", duracion); //y aqui App.js obtiene los minutos por donde tiene que empezar ej: 15
+    }else{
+      localStorage.setItem("Comenzar", true);
+    }
+  }
 
 
   //Cuando cambio de sala
@@ -100,11 +111,15 @@ export default class Temporizador extends Component {
         <div className="container-fluid mt-4">
             <h4>Sala <strong>{this.state.sala}</strong></h4>
               {/* <CountDown minutes={this.state.duracion}/> */}
-              <CountDown minutes={this.state.duracion}/>
+              {
+                this.state.status === true && // IMPORTANTE este If: Sin esto el countdown sale como NaN:NaN, es por la asincronía
+                <CountDownIndv seconds={localStorage.getItem("countdown")}/>
+              }
               {/* {renderCountDown()} */}
               {/* <InicioTemp horaactual={savedTime} inicioTemp={savedTime}/> duracion={15} */}
               <DateNow/>
             <h1>Tiempo total del evento: {this.state.tiempoTotal}</h1>
+            <button className='btn btn-success' onClick={this.ChekDates()}>Start</button>
         </div>
     )
   }

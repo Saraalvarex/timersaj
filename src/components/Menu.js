@@ -15,16 +15,8 @@ export default class Menu extends Component {
               <li className="nav-item">
                 <NavLink className="nav-link" to="/salas">Mis Salas</NavLink>
               </li>
-              <li className="nav-item dropdown">
-                <NavLink className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Configurar Timer
-                </NavLink>
-                <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="/creartemporizadorpag1">Crear Evento</a></li>
-                  <li><a className="dropdown-item" href=".">Administrar Timers</a></li>
-                  <li><hr className="dropdown-divider"/></li>
-                  <li><a className="dropdown-item" href=".">Más opciones</a></li>
-                </ul>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/creartemporizadorpag1">Crear Evento</NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link">Identificarse</NavLink>

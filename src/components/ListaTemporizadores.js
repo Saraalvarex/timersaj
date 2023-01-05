@@ -4,6 +4,7 @@ import Global from '../Global';
 import axios from 'axios';
 
 import './../App.css';
+import CountDownIndv from './Timer/CountdownIndv';
 
 export default class ListaTemporizadores extends Component {
 
@@ -42,20 +43,23 @@ export default class ListaTemporizadores extends Component {
               return(
                 <div key={index} className="card mb-3" style={{width: "auto"}}>
                   <div className="card-img-top">
-                    <p className='fw-bold pt-3'>00:00</p>
+                    {
+                      localStorage.getItem("countdown") ?
+                      (<CountDownIndv seconds={localStorage.getItem("countdown")}/>):
+                      (<h3 className='display-1'>00:00</h3>)
+                    }
                   </div>
                   <div className="card-body">
-                    <h5 className="card-title">{sala.sala}</h5>
+                    <h5 className="card-title">Sala: {sala.sala}</h5>
                     <p className="card-text">Empresa: {sala.empresa}</p>
-                    <NavLink to={"/temporizador/"+sala.idSala} className="btn btn-primary">Go somewhere</NavLink>
+                    <NavLink to={"/temporizador/"+sala.idSala} className="btn btn-primary">Temporizador</NavLink>
                   </div>
                 </div>
               );
             })
-            
           )
           :
-          (<h3>Cargando tus salas</h3>)
+          (<h3>No hay salas</h3>)
           }
         </div>
       </div>
