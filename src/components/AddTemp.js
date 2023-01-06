@@ -64,7 +64,7 @@ export default class AddTemp extends Component {
         <div>
             <h1>TEMPORIZADORES</h1>
             
-            <form style={{width: "500px", margin: "0 auto"}}>
+            <form className='container-fluid'>
               <label>Categoría:</label>
                 <select className='form-control' onChange={this.handleChange}>
                   {this.state.categorias.map((categoria) => (
@@ -79,7 +79,7 @@ export default class AddTemp extends Component {
                 <input type="datetime-local" className='form-control'
                 ref={this.cajaInicioRef} required/><br/>
 
-              <button className='btn btn-primary' onClick={this.crearTemp}>
+              <button className='btn btn-primary me-2' onClick={this.crearTemp}>
                 Guardar
               </button>
               <NavLink className='btn btn-info' to="/" >

@@ -38,7 +38,7 @@ export default class AddCategoria extends Component {
         <div>
             <h1 className='display-3 mt-3'>AÑADIR CATEGORIAS</h1>
             
-            <form style={{width: "500px", margin: "0 auto"}}>
+            <form className='container-fluid'>
             <label>Nombre: </label>
             <input type="text" className='form-control'
             ref={this.cajaNombreRef} required/><br/>
@@ -47,7 +47,7 @@ export default class AddCategoria extends Component {
             <input type="number" className='form-control'
             ref={this.cajaDuracionRef} required/><br/>
 
-              <button className='btn btn-primary' onClick={this.crearCategoria}>
+              <button className='btn btn-primary me-2' onClick={this.crearCategoria}>
                 Guardar
               </button>
               <NavLink className='btn btn-info' to={"/creartemporizadorpag4"} >

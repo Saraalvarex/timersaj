@@ -14,7 +14,7 @@ const formatTime = (time) =>{
 
     if(minutes <= 9) minutes = '0' + minutes;
     if(seconds <= 9) seconds = '0' + seconds;
-    //return minutes + ':' + seconds //Lo dejo comentado para que no se muestre, pero sí quiero que se ejecute (Lo dejo asi de momento)
+    return minutes + ':' + seconds //Lo dejo comentado para que no se muestre, pero sí quiero que se ejecute (Lo dejo asi de momento)
 }
 
 /* 
@@ -40,10 +40,9 @@ export default function CountDownGeneral({minutes}) {
         if(countdown <= 0){
             clearInterval(timerId.current);
             window.navigator.vibrate(1000); //Esto hara que vibre el dispositivo por 1 segundo (1000)
-            
         }
     }, [countdown])
-    /* return (
-        <h1 className="display-1">{formatTime(countdown)}</h1>
-    )  */
+    return (
+        <h1 className="display-1">General: {formatTime(countdown)}</h1>
+    ) 
 }

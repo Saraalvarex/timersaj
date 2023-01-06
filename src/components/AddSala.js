@@ -31,7 +31,7 @@ export default class AddSala extends Component {
         <div>
             <h1 className='display-2 mt-3'>AÑADIR SALAS</h1>
             
-            <form style={{width: "500px", margin: "0 auto"}}>
+            <form className='container-fluid'>
             <label>Nombre: </label>
             <input type="text" className='form-control'
             ref={this.cajaNombreRef} required/><br/>
@@ -40,7 +40,7 @@ export default class AddSala extends Component {
             <input type="number" className='form-control'
             ref={this.cajaNumcategoriasRef} required/><br/> */}
 
-              <button className='btn btn-primary' onClick={this.crearSala}>
+              <button className='btn btn-primary me-2' onClick={this.crearSala}>
                 Guardar
               </button>
               <NavLink className='btn btn-info' to={"/creartemporizadorpag3"} >
