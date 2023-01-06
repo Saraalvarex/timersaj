@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Global from '../Global';
-import { Navigate } from 'react-router-dom';
+import { NavLink, Navigate } from 'react-router-dom';
 
 export default class AddEvento extends Component {
 //El numero de categorias lo necesitamos para la siguiente pantalla
@@ -11,7 +11,7 @@ export default class AddEvento extends Component {
   cajaFinRef = React.createRef();
 
   state = {
-    mensaje: "",
+    // mensaje: "",
     status: false
   }
 
@@ -32,9 +32,10 @@ export default class AddEvento extends Component {
     };
 
     axios.post(url, evento).then(response => {
+      localStorage.setItem("idEvento", response.data.idEvento)
       this.setState({
-        status: true,
-        mensaje: "Evento insertado"
+        status: true
+        // mensaje: "Evento insertado"
       });
     });
   }
@@ -44,37 +45,33 @@ export default class AddEvento extends Component {
       return (<Navigate to={"/creartemporizadorpag2"}/>);
     }
     return (
-        <div>
-            <h1 className='display-2 mt-3'>CREAR EVENTO</h1>
-            
+        <div className='container-fluid'>
+          <div className='d-flex justify-content-between mt-3'>
+            <NavLink to="/">Volver</NavLink>
+          </div>
+            <h1 className='display-2 mt-3'>Crear evento</h1>
+            <br/>
             <form className='container-fluid'>
                 <label>Nombre: </label>
                 <input type="text" className='form-control'
                 ref={this.cajaNombreRef} required/><br/>
 
-                <div style={{display: "inline-block"}}>
+              <div className="row">
+                <div className="col">
                 <label>Inicio:</label>
-                <input type="datetime-local" className='form-control'
-                ref={this.cajaInicioRef} required/>
+                  <input type="datetime-local" className='form-control' ref={this.cajaInicioRef} required/>
                 </div>
-                <div style={{display: "inline-block"}}>
+                <div className="col">
                 <label>Fin: </label>
-                <input type="datetime-local" className='form-control'
-                ref={this.cajaFinRef} required/><br/>
+                  <input type="datetime-local" className='form-control' ref={this.cajaFinRef} required/><br/>
                 </div>
-                <br/> 
-                {/* <label>Nº de salas: </label>
-                <input type="number" className='form-control'
-                ref={this.cajaNumeroRef} required/>*/}
+              </div>
+              <br/>
 
               <button className='btn btn-info' onClick={this.crearEvento}>
                 Siguiente
               </button>
             </form>
-
-            <h2 style={{color:"blue"}}>
-              {this.state.mensaje}
-            </h2>
         </div>
     )
   }
