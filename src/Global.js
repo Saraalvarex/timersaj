@@ -1,5 +1,4 @@
 var Global = {
-    timer: "https://localhost:5001/"
+    timer: "https://localhost:7004"
 }
-
 export default Global;

@@ -17,7 +17,7 @@ export default class AddEvento extends Component {
 
   crearEvento = (e) => {
     e.preventDefault();
-    var request = "api/eventos";
+    var request = "/api/eventos";
     var url = Global.timer + request;
     // var numero = parseInt(this.cajaNumeroRef.current.value);
     var nombre = this.cajaNombreRef.current.value;
@@ -40,12 +40,12 @@ export default class AddEvento extends Component {
   }
 
   render() {
-    if (this.state.status == true){
-      return (<Navigate to="/creartemporizadorpag2"/>);
+    if (this.state.status === true){
+      return (<Navigate to={"/creartemporizadorpag2"}/>);
     }
     return (
         <div>
-            <h1>EVENTO</h1>
+            <h1 className='display-2 mt-3'>CREAR EVENTO</h1>
             
             <form style={{width: "500px", margin: "0 auto"}}>
                 <label>Nombre: </label>
@@ -62,10 +62,10 @@ export default class AddEvento extends Component {
                 <input type="datetime-local" className='form-control'
                 ref={this.cajaFinRef} required/><br/>
                 </div>
-
-                <label>Nº de categorías de temporizadores: </label>
+                <br/> 
+                {/* <label>Nº de salas: </label>
                 <input type="number" className='form-control'
-                ref={this.cajaNumeroRef} required/><br/>
+                ref={this.cajaNumeroRef} required/>*/}
 
               <button className='btn btn-info' onClick={this.crearEvento}>
                 Siguiente

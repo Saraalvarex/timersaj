@@ -1,68 +1,90 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Global from '../Global';
-import { Navigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export default class AddTemp extends Component {
-  cajaTiempoRef = React.createRef();
-  cajaNombreRef = React.createRef();
   cajaInicioRef = React.createRef();
 
   state = {
+    categorias: [],
     mensaje: "",
-    status: false
+    status: false,
+    selectedId: 0
+  }
+
+  cargarSelect = () => {
+    var request ="/api/categoriastimer"
+    var url = Global.timer+request;
+    axios.get(url).then(res=>{
+        this.setState({
+            categorias: res.data
+        })
+    })
+  }
+
+  handleChange = (event) => {
+    // Obtener el valor del elemento seleccionado
+    const selectedId = event.target.value;
+    // Actualizar el estado con el valor seleccionado
+    this.setState({ selectedId: selectedId });
   }
 
   crearTemp = (e) => {
     e.preventDefault();
-    var request = "/api/timer";
+    var request = "/api/timers";
     var url = Global.timer + request;
-    var nombre = this.cajanombreRef.current.value;
+    // var id = this.cajaNombreRef.current.value;
     var inicio = this.cajaInicioRef.current.value;
-
+    console.log(this.state.selectedId)
     var temp = {
         idTemporizador: 0,
         inicio: inicio,
-        idCategoria: 0,
+        idCategoria: this.state.selectedId,
         pausa: false
     };
 
     axios.post(url, temp).then(response => {
       this.setState({
         status: true,
-        mensaje: "Periodo insertado"
+        mensaje: "Temporizador insertado"
       });
     });
   }
 
+  componentDidMount = () => {
+    this.cargarSelect();
+  }
+
   render() {
-    if (this.state.status == true){
-      return (<Navigate to="/"/>);
-    }
+    // if (this.state.status == true){
+    //   return (<Navigate to="/"/>);
+    // }
     return (
         <div>
-            <h1>PERIODOS DE TIEMPO</h1>
+            <h1>TEMPORIZADORES</h1>
             
             <form style={{width: "500px", margin: "0 auto"}}>
-                <label>Nombre: </label>
-                <input type="text" className='form-control'
-                ref={this.cajaNombreRef} required/><br/>
+              <label>Categoría:</label>
+                <select className='form-control' onChange={this.handleChange}>
+                  {this.state.categorias.map((categoria) => (
+                    <option className="form-control" key={categoria.idCategoria} value={categoria.idCategoria}>
+                      {categoria.categoria}
+                    </option>
+                  ))}
+                </select>
+                <br/>
 
                 <label>Inicio: </label>
                 <input type="datetime-local" className='form-control'
                 ref={this.cajaInicioRef} required/><br/>
-                <label>Fin: </label>
-                <input type="datetime-local" className='form-control'
-                ref={this.cajaFinRef} required/><br/>
 
-                <label>Nº de categorías de temporizadores: </label>
-                <input type="number" className='form-control'
-                ref={this.cajaNumeroRef} required/><br/>
-
-              <button className='btn btn-info' onClick={this.crearEvento}>
-                Siguiente
+              <button className='btn btn-primary' onClick={this.crearTemp}>
+                Guardar
               </button>
-
+              <NavLink className='btn btn-info' to="/" >
+                Salir
+              </NavLink>
             </form>
 
             <h2 style={{color:"blue"}}>
