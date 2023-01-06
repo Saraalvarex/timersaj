@@ -1,27 +1,64 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import axios from 'axios';
+import Global from '../Global';
+import { NavLink } from 'react-router-dom';
 
 export default class AddCategoria extends Component {
+  cajaNombreRef = React.createRef();
+  cajaDuracionRef = React.createRef();
+  
+  state = {
+    mensaje: "",
+    status: false
+  }
+
+  crearCategoria = (e) => {
+    e.preventDefault();
+    var request = "/api/categoriastimer";
+    var url = Global.timer + request;
+    var nombre = this.cajaNombreRef.current.value;
+    var duracion = this.cajaDuracionRef.current.value;
+
+    var categoria = {
+      idCategoria: 0,
+      categoria: nombre,
+      duracion: duracion
+    };
+
+    axios.post(url, categoria).then(response => {
+      this.setState({
+        status: true,
+        mensaje: "Categoria "+ nombre +" insertada"
+      });
+    });
+  }
+
   render() {
     return (
-        <div className='container-fluid'>
-        <div className='row mt-4'>
-            <div className='col'></div>
-            <div className='col-8'>
-                <form>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Título</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Duración</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1"/>
-                </div>
-                <button type="submit" class="btn btn-primary">Añadir</button>
-                </form>
-            </div>
-            <div className='col'></div>
+        <div>
+            <h1 className='display-3 mt-3'>AÑADIR CATEGORIAS</h1>
+            
+            <form className='container-fluid'>
+            <label>Nombre: </label>
+            <input type="text" className='form-control'
+            ref={this.cajaNombreRef} required/><br/>
+            
+            <label>Duración (minutos): </label>
+            <input type="number" className='form-control'
+            ref={this.cajaDuracionRef} required/><br/>
+
+              <button className='btn btn-primary me-2' onClick={this.crearCategoria}>
+                Guardar
+              </button>
+              <NavLink className='btn btn-info' to={"/creartemporizadorpag4"} >
+                Siguiente
+              </NavLink>
+            </form>
+
+            <h2 style={{color:"red"}}>
+              {this.state.mensaje}
+            </h2>
         </div>
-      </div>
     )
   }
 }

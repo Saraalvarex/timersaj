@@ -3,12 +3,10 @@
     src: url('../style/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf') format('truetype');
   }
   
-*{
-    background: #F5F5F5;
-}
+
 
 .Title{
-    position: absolute;
+    position: relative;
     width: 269px;
     height: 58px;
     left: 37px;
@@ -42,5 +40,37 @@
 
     text-align: center;
 
+    color: #000000;
+}
+
+.Temporizador {
+    box-shadow: -1px 5px 5px darkgrey;
+    margin-top: 35px;
+    position: relative;
+    width: 279px;
+    height: 216px;
+    left: 47px;
+    top: 104px;
+    background: #FFFFFF;
+    border: 1px solid #5E5BFF;
+    border-radius: 15px;
+}
+
+.Temporizador .row {
+    margin-top: 30px;
+}
+
+.TempTitle {
+    position: relative;
+    width: 254px;
+    height: 51px;
+    left: -4px;
+    top: 19px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
     color: #000000;
 }
