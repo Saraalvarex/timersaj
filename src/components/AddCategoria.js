@@ -36,7 +36,7 @@ export default class AddCategoria extends Component {
   render() {
     return (
         <div>
-            <h1>AÑADIR CATEGORIAS</h1>
+            <h1 className='display-3 mt-3'>AÑADIR CATEGORIAS</h1>
             
             <form style={{width: "500px", margin: "0 auto"}}>
             <label>Nombre: </label>

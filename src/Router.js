@@ -9,18 +9,20 @@ import AddEvento from './components/AddEvento';
 import AddSala from './components/AddSala';
 import Temporizador from './components/Temporizador';
 import AddTemp from './components/AddTemp';
-
+import ListaTemporizadores from './components/ListaTemporizadores';
+import Menu from './components/Menu';
 
 export default class Router extends Component {
   render() {
 
     function TemporizadorElement(){
       var {idsala} = useParams();
-      return (<Temporizador idsala={idsala}></Temporizador>)
+      return (<Temporizador idsala={idsala}/>)
     }
 
     return (
       <BrowserRouter>
+      <Menu/>
         <Routes>
           <Route path="/" element={<Inicio/>}/>
           <Route path='/creartemporizadorpag1' element={<AddEvento/>}/>
@@ -29,6 +31,7 @@ export default class Router extends Component {
           <Route path='/creartemporizadorpag4' element={<AddTemp/>}/>
           <Route path='/temporizador/:idsala' element={<TemporizadorElement/>}/>
           <Route path='/temporizador' element={<Temporizador/>}/>
+          <Route path='/salas' element={<ListaTemporizadores/>}/>
           <Route path='/addempresa' element={<AddEmpresa/>}/>
           <Route path='/eventos' element={<Eventos/>}/>
         </Routes>

@@ -45,7 +45,7 @@ export default class AddEvento extends Component {
     }
     return (
         <div>
-            <h1>CREAR EVENTO</h1>
+            <h1 className='display-2 mt-3'>CREAR EVENTO</h1>
             
             <form style={{width: "500px", margin: "0 auto"}}>
                 <label>Nombre: </label>

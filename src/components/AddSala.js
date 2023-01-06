@@ -29,7 +29,7 @@ export default class AddSala extends Component {
   render() {
     return (
         <div>
-            <h1>AÑADIR SALAS</h1>
+            <h1 className='display-2 mt-3'>AÑADIR SALAS</h1>
             
             <form style={{width: "500px", margin: "0 auto"}}>
             <label>Nombre: </label>
