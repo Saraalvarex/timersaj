@@ -15,8 +15,6 @@ export default class Temporizador extends Component {
     datenow: localStorage.getItem('time')
   }
 
-  var 
-
   //Cambia el formato "2023-01-18T09:00:00" a 09:00:00
   changeFormat = (dateString) => {
     const date = new Date(dateString);
@@ -55,8 +53,6 @@ export default class Temporizador extends Component {
         var tiempoTotal = 0;
         var inicio = 0;
         var duracion = 0;
-
-
         timers.forEach(timer => {
             sala = timer.sala;
             inicio = new Date(timer.inicioEvento);
@@ -64,35 +60,38 @@ export default class Temporizador extends Component {
             //Meto un array todos los inicios (hora) de los timers de una sala
             iniciosTimersAux.push(this.changeFormat(timer.inicioTimer));
             //duracion deberia ser un array 
-            //duracion = timer.duracion;
             const fin = new Date(timer.finEvento);
             tiempoTotal = (fin.getTime() - inicio.getTime()) / 3600000; // 5.5
         });
       //Si iniciosTimersAux[i]==this.state.datenow empieza el countdown
-
-        this.ChekDates(iniciosTimersAux[0], duracion);
-
       this.setState({
-        iniciosTimers : iniciosTimersAux,
+        iniciosTimers: iniciosTimersAux,
         sala: sala,
         duracion: duracion,
         tiempoTotal: tiempoTotal,
         status: true,
         inicio: inicio
+      }, () => {
+        this.ChekDates(this.state.iniciosTimers[0], this.state.datenow, this.state.duracion)
       });
     });
   }
+  
 
   //Esta funcion comprueba la hora
- ChekDates = (inicioProgramado, duracion) => {
-  console.log("Hola"+inicioProgramado);
-  console.log(this.state.iniciosTimers);
-    if(this.state.iniciosTimers === inicioProgramado){
-      localStorage.setItem("Comenzar", true);//Esto en App.js comprueba si ya se puede empezar a cronometrar
+ ChekDates = (inicioProgramado, horaActual, duracion) => {
+    if(horaActual >= inicioProgramado){
+      
+      localStorage.setItem("comenzar", true);//Esto en App.js comprueba si ya se puede empezar a cronometrar
       localStorage.setItem("Estimate duration", duracion); //y aqui App.js obtiene los minutos por donde tiene que empezar ej: 15
     }else{
-      localStorage.setItem("Comenzar", true);
+      localStorage.setItem("comenzar", false);
     }
+  }
+
+  StartCrono = () => {
+    localStorage.setItem("comenzar", true);//Esto en App.js comprueba si ya se puede empezar a cronometrar
+    localStorage.setItem("Estimate duration", this.state.duracion); //y aqui App.js obtiene los minutos por donde tiene que empezar ej: 15
   }
 
 
@@ -119,7 +118,8 @@ export default class Temporizador extends Component {
               {/* <InicioTemp horaactual={savedTime} inicioTemp={savedTime}/> duracion={15} */}
               <DateNow/>
             <h1>Tiempo total del evento: {this.state.tiempoTotal}</h1>
-            <button className='btn btn-success' onClick={this.ChekDates()}>Start</button>
+            <p>Inicio programado a las: {this.state.iniciosTimers[0]}</p>
+            <button className='btn btn-outline-success' onClick={this.StartCrono}>Start</button>
         </div>
     )
   }
