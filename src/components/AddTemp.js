@@ -5,15 +5,19 @@ import { NavLink } from 'react-router-dom';
 
 export default class AddTemp extends Component {
   cajaInicioRef = React.createRef();
-
+ 
   state = {
     categorias: [],
+    salas: [],
     mensaje: "",
     status: false,
-    selectedId: 0
+    save: false,
+    selectedIdCategoria: 0,
+    selectedIdSala: 0,
+    idTemp: 0
   }
 
-  cargarSelect = () => {
+  cargarSelectCategorias = () => {
     var request ="/api/categoriastimer"
     var url = Global.timer+request;
     axios.get(url).then(res=>{
@@ -23,20 +27,36 @@ export default class AddTemp extends Component {
     })
   }
 
-  handleChange = (event) => {
-    // Obtener el valor del elemento seleccionado
-    const selectedId = event.target.value;
-    // Actualizar el estado con el valor seleccionado
-    this.setState({ selectedId: selectedId });
+  cargarSelectSalas = () => {
+    var request ="/api/salas"
+    var url = Global.timer+request;
+    axios.get(url).then(res=>{
+        this.setState({
+            salas: res.data
+        })
+    })
   }
 
+  handleChangeSala = (event) => {
+    // Obtener el valor del elemento seleccionado
+    const selectedIdSala = event.target.value;
+    // Actualizar el estado con el valor seleccionado
+    this.setState({ selectedIdSala: selectedIdSala });
+  }
+
+  handleChangeCategoria = (event) => {
+    // Obtener el valor del elemento seleccionado del select de categoria
+    const selectedIdCategoria = event.target.value;
+    // Actualizar el estado con el valor seleccionado
+    this.setState({ selectedIdCategoria: selectedIdCategoria });
+  }
+
+  //Creamos temporizador y "Tiempos-empresas-salas"
   crearTemp = (e) => {
     e.preventDefault();
-    var request = "/api/timers";
-    var url = Global.timer + request;
-    // var id = this.cajaNombreRef.current.value;
+    var requestTimers = "/api/timers";
+    var url = Global.timer
     var inicio = this.cajaInicioRef.current.value;
-    console.log(this.state.selectedId)
     var temp = {
         idTemporizador: 0,
         inicio: inicio,
@@ -44,29 +64,58 @@ export default class AddTemp extends Component {
         pausa: false
     };
 
-    axios.post(url, temp).then(response => {
+    axios.post(url+requestTimers, temp).then(response => {
       this.setState({
         status: true,
+        idTemp: response.idTemporizador,
         mensaje: "Temporizador insertado"
       });
     });
+
+    var requestTiempos = "/api/tiempoempresasala";
+    var registro = {
+      id: 1,
+      idTimer: this.state.idTemp,
+      idEmpresa: 4,
+      idSala: this.state.selectedIdSala,
+      idEvento: localStorage.getItem("idEvento")
+    };
+
+    axios.post(url+requestTiempos, registro).then(response => {
+      this.setState({
+        save: true
+      });
+    });
+
   }
 
   componentDidMount = () => {
-    this.cargarSelect();
+    this.cargarSelectCategorias();
+    this.cargarSelectSalas();
   }
 
   render() {
-    // if (this.state.status == true){
-    //   return (<Navigate to="/"/>);
-    // }
     return (
-        <div>
-            <h1>TEMPORIZADORES</h1>
-            
+      <div className='container-fluid'>
+        <div className='d-flex justify-content-between mt-3'>
+          <NavLink to="/creartemporizadorpag3">Atrás</NavLink>
+        </div>
+
+            <h1 className='display-3 mt-3'>Añadir temporizadores</h1>
+            <br/>
             <form className='container-fluid'>
+
+            <label>Sala:</label>
+                <select className='form-control' onChange={this.handleChangeSala}>
+                  {this.state.salas.map((sala) => (
+                    <option className="form-control" key={sala.idSala} value={sala.idSala}>
+                      {sala.nombreSala}
+                    </option>
+                  ))}
+                </select>
+              <br/>
               <label>Categoría:</label>
-                <select className='form-control' onChange={this.handleChange}>
+                <select className='form-control' onChange={this.handleChangeCategoria}>
                   {this.state.categorias.map((categoria) => (
                     <option className="form-control" key={categoria.idCategoria} value={categoria.idCategoria}>
                       {categoria.categoria}
@@ -79,14 +128,20 @@ export default class AddTemp extends Component {
                 <input type="datetime-local" className='form-control'
                 ref={this.cajaInicioRef} required/><br/>
 
-              <button className='btn btn-primary me-2' onClick={this.crearTemp}>
-                Guardar
-              </button>
-              <NavLink className='btn btn-info' to="/" >
-                Salir
-              </NavLink>
+              <div className="row">
+                <div className="col">
+                <button className='btn btn-primary' onClick={this.crearTemp}>
+                    Guardar
+                  </button>
+                </div>
+                <div className="col">
+                <NavLink className='btn btn-outline-primary' to="/" >
+                    Terminar y salir
+                  </NavLink>
+                </div>
+              </div>
             </form>
-
+            <br/>
             <h2 style={{color:"blue"}}>
               {this.state.mensaje}
             </h2>
