@@ -23,6 +23,22 @@ export default class ListaTemporizadores extends Component {
     })
   }
 
+  Delete_Salas = (e) =>{
+    e.preventDefault();
+    var id = this.props.idSala;
+    var nombre = this.props.nombreSala;
+    var request = "api/Salas/" + id + nombre;
+    var url = Global.timer + request;
+    axios.delete(url).then(response=>{
+      this.setState({
+        
+        status:true
+      });
+    });
+  }
+
+
+
   componentDidMount = () => {
     this.Get_Salas();
   }
@@ -53,6 +69,7 @@ export default class ListaTemporizadores extends Component {
                     <h5 className="card-title">Sala: {sala.sala}</h5>
                     <p className="card-text">Empresa: {sala.empresa}</p>
                     <NavLink to={"/temporizador/"+sala.idSala} className="btn btn-primary">Temporizador</NavLink>
+                    <button onClick={this.Delete_Salas}>Eliminar Sala</button>
                   </div>
                 </div>
               );
