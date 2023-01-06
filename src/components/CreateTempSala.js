@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import Global from '../Global';
 import axios from 'axios';
+import Temporizador from './Temporizador';
 
 export default class CreateTempSala extends Component {
 
@@ -15,6 +16,7 @@ export default class CreateTempSala extends Component {
         salas: [],
         empresas: [],
         tiempos: [],
+        categorias: [],
         eventos: []
     }
 
@@ -44,16 +46,20 @@ export default class CreateTempSala extends Component {
                 tiempos: res.data
             });
         });
-        var request2 = "/api/categoriastimer";
-        var url2 = Global.timer + request2;
-        axios.get(url2).then(res=> {
+    }
+
+    GetCategorias = () => {
+        var request = "/api/categoriastimer";
+        var url = Global.timer + request;
+        axios.get(url).then(res=> {
             this.setState({
                 categorias: res.data
             });
         });
-
     }
-    GetEventos= () => {
+
+
+    GetEventos = () => {
         var request = "/api/eventos";
         var url = Global.timer + request;
         axios.get(url).then(res=> {
@@ -63,11 +69,40 @@ export default class CreateTempSala extends Component {
         });
     }
 
+
+    AddTemporizador = (e) => {
+        e.preventDefault();
+        var request = "/api/tiempoempresasala";
+        var url = Global.timer + request;
+
+        var sala = parseInt(this.selectSala.current.value);
+        var empresa = parseInt(this.selectEmpresa.current.value);
+        var duracion = parseInt(this.selectDuracion.current.value);
+        var evento = parseInt(this.selectEvento.current.value);
+
+        var salaTemporizador = {
+            id: 0,
+            idTimer: duracion,
+            idEmpresa: empresa,
+            idSala: sala,
+            idEvento: evento
+        }
+
+        axios.post(url, salaTemporizador).then(response=>{
+            console.log(response);
+            this.setState({
+                status: true,
+                mensaje: "Temporizador añadido a tus Salas"
+            });
+        });
+    }
+
     componentDidMount = () => {
         this.GetSalas();
         this.GetEmpresas();
         this.GetTimer();
         this.GetEventos();
+        this.GetCategorias();
     }
 
   render() {
@@ -101,12 +136,14 @@ export default class CreateTempSala extends Component {
                 </select>
             </div>
             <div className="mb-3 container-fluid">
-                <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" ref={this.selectDuracion}>
+                <select className="form-select form-select-lg mb-3 bg-warning" aria-label=".form-select-lg example" ref={this.selectDuracion}>
                     <option disabled>Establezca la duración</option>
                     {
                         this.state.tiempos.map((temp, index)=> {
                             return(
-                                <option key={index} value={temp.idTemporizador}>{temp.inicio}</option>
+                                <option key={index} value={temp.idTemporizador}>{
+                                    temp.idTemporizador
+                                }</option>
                             )
                         })
                     }
@@ -115,14 +152,48 @@ export default class CreateTempSala extends Component {
             <div className="mb-3 container-fluid">
                 <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" ref={this.selectEvento}>
                     <option disabled>Insertalo en un evento</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    {
+                        this.state.eventos.map((ev, index)=> {
+                            return(
+                                <option key={index} value={ev.idEvento}>{ev.nombreEvento}</option>
+                            )
+                        })
+                    }
                 </select>
             </div>
-            <button className="btn btn-success me-2">Añadir</button>
+            <button className="btn btn-success me-2" onClick={this.AddTemporizador}>Añadir</button>
             <NavLink to="/salas" className="btn btn-primary">He terminado</NavLink>
             </form>
+
+             {/* Button trigger modal  */}
+            <button type="button" className="btn btn-warning mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Detalles
+            </button>
+
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header bg-warning">
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">Significado de los números</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    <div className="modal-body">
+                        Los números que te se te ofrecen indican qué duración deseas en tus salas
+                        {
+                            this.state.categorias.map((cat, index)=> {
+                                return(
+                                    <p key={index}>El <b>{cat.idCategoria}</b> corresponde a la <b>categoría {cat.categoria}</b> con <b>{cat.duracion} minutos</b> de duración</p>
+                                )
+                            })
+                        }
+                    </div>
+                    {/* <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-primary">Save changes</button>
+                    </div> */}
+                    </div>
+                </div>
+            </div>
 
             <h2 style={{color:"red"}}>
               {this.state.mensaje}
