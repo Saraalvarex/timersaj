@@ -32,13 +32,14 @@ export default class AddSala extends Component {
 
   render() {
     return (
+
       <div className='container-fluid'>
           <div className='d-flex justify-content-between mt-3'>
             <NavLink to="/creartemporizadorpag1">Atrás</NavLink>
           </div>
             <h1 className='display-2 mt-3'>Añadir salas</h1>
             <br/>
-            <form style={{width: "500px", margin: "0 auto"}}>
+            <form className='container-fluid'>
             <label>Nombre: </label>
             <input type="text" className='form-control'
             ref={this.cajaNombreRef} required/><br/>
@@ -47,6 +48,12 @@ export default class AddSala extends Component {
             <input type="number" className='form-control'
             ref={this.cajaNumcategoriasRef} required/><br/> */}
 
+              <button className='btn btn-primary me-2' onClick={this.crearSala}>
+                Guardar
+              </button>
+              <NavLink className='btn btn-info' to={"/creartemporizadorpag3"} >
+                Siguiente
+              </NavLink>
               <div className="row">
               <div className="col">
                 <button className='btn btn-primary' onClick={this.crearSala}>

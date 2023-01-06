@@ -103,7 +103,7 @@ export default class AddTemp extends Component {
 
             <h1 className='display-3 mt-3'>Añadir temporizadores</h1>
             <br/>
-            <form style={{width: "500px", margin: "0 auto"}}>
+            <form className='container-fluid'>
 
             <label>Sala:</label>
                 <select className='form-control' onChange={this.handleChangeSala}>
@@ -114,7 +114,6 @@ export default class AddTemp extends Component {
                   ))}
                 </select>
               <br/>
-
               <label>Categoría:</label>
                 <select className='form-control' onChange={this.handleChangeCategoria}>
                   {this.state.categorias.map((categoria) => (

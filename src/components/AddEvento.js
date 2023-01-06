@@ -51,7 +51,7 @@ export default class AddEvento extends Component {
           </div>
             <h1 className='display-2 mt-3'>Crear evento</h1>
             <br/>
-            <form style={{width: "500px", margin: "0 auto"}}>
+            <form className='container-fluid'>
                 <label>Nombre: </label>
                 <input type="text" className='form-control'
                 ref={this.cajaNombreRef} required/><br/>

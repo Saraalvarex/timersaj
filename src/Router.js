@@ -11,8 +11,14 @@ import Temporizador from './components/Temporizador';
 import AddTemp from './components/AddTemp';
 import ListaTemporizadores from './components/ListaTemporizadores';
 import Menu from './components/Menu';
+import CountDownGeneral from './components/Timer/CountdownGeneral';
+import CreateTempSala from './components/CreateTempSala';
 
 export default class Router extends Component {
+
+
+
+
   render() {
 
     function TemporizadorElement(){
@@ -23,6 +29,7 @@ export default class Router extends Component {
     return (
       <BrowserRouter>
       <Menu/>
+      <CountDownGeneral minutes={localStorage.getItem("Estimate duration")}/>
         <Routes>
           <Route path="/" element={<Inicio/>}/>
           <Route path='/creartemporizadorpag1' element={<AddEvento/>}/>
@@ -34,6 +41,7 @@ export default class Router extends Component {
           <Route path='/salas' element={<ListaTemporizadores/>}/>
           <Route path='/addempresa' element={<AddEmpresa/>}/>
           <Route path='/eventos' element={<Eventos/>}/>
+          <Route path='/configuretemp' element={<CreateTempSala/>}/>
         </Routes>
       </BrowserRouter>
 

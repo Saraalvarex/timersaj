@@ -31,7 +31,7 @@ export default class ListaTemporizadores extends Component {
     return(
       <div className='container-fluid'>
         <div className='d-flex justify-content-between mt-3'>
-          <NavLink to="/">Volver</NavLink>
+          <NavLink to="/configuretemp">Añade salas</NavLink>
           <h1 className='display-2 '>Tus salas</h1>
         </div>
         <hr/>

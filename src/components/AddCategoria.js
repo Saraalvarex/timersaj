@@ -41,7 +41,7 @@ export default class AddCategoria extends Component {
           </div>
             <h1 className='display-3 mt-3'>Añadir categorías</h1>
             <br/>
-            <form style={{width: "500px", margin: "0 auto"}}>
+            <form className='container-fluid'>
             <label>Nombre: </label>
             <input type="text" className='form-control'
             ref={this.cajaNombreRef} required/><br/>
