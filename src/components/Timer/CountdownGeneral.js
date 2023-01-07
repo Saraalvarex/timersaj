@@ -24,8 +24,10 @@ console.log(minutosAux) */
 export default function CountDownGeneral({minutes}) {
     //Pasamos los minutos del tmp iniciado y los pasamos a segundos para iniciar el temp
     const seconds = minutes*60
-    const [countdown, setCountdown] = useState(seconds)
-    localStorage.setItem("countdown", countdown)
+    const [countdown, setCountdown] = useState(
+        parseInt(localStorage.getItem("countdown")) || seconds
+    );
+
     const timerId = useRef();
 
     useEffect(() => {
