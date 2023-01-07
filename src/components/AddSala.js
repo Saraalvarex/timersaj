@@ -48,12 +48,12 @@ export default class AddSala extends Component {
             <input type="number" className='form-control'
             ref={this.cajaNumcategoriasRef} required/><br/> */}
 
-              <button className='btn btn-primary me-2' onClick={this.crearSala}>
+              {/* <button className='btn btn-primary me-2' onClick={this.crearSala}>
                 Guardar
               </button>
               <NavLink className='btn btn-info' to={"/creartemporizadorpag3"} >
                 Siguiente
-              </NavLink>
+              </NavLink> */}
               <div className="row">
               <div className="col">
                 <button className='btn btn-primary' onClick={this.crearSala}>

@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, {useState, useEffect, Component } from 'react';
 import axios from 'axios';
 import Global from '../Global';
 import { Navigate } from 'react-router-dom';
 import CountDownIndv from './Timer/CountdownIndv';
 import DateNow from './Timer/DateNow';
+import moment from 'moment';
+import Temp from './Temp';
 
 export default class Temporizador extends Component {
   
@@ -11,8 +13,7 @@ export default class Temporizador extends Component {
     // timers: [],
     iniciosTimers: [],
     mensaje: "",
-    status: false,
-    datenow: localStorage.getItem('time')
+    status: false
   }
 
   //Cambia el formato "2023-01-18T09:00:00" a 09:00:00
@@ -48,7 +49,7 @@ export default class Temporizador extends Component {
     axios.get(url).then(res => {
         var timers = res.data;
         var iniciosTimersAux = []
-        //La sala y tiempo inicio y tiempo fin debería ser común en todos los temps de una sala
+        //La sala, evento y tiempo inicio y tiempo fin debería ser común en todos los temps de una sala
         var sala = "";
         var tiempoTotal = 0;
         var inicio = 0;
@@ -64,36 +65,54 @@ export default class Temporizador extends Component {
             tiempoTotal = (fin.getTime() - inicio.getTime()) / 3600000; // 5.5
         });
       //Si iniciosTimersAux[i]==this.state.datenow empieza el countdown
+      // const iniciosTimers = [
+      //   { inicio: "16:00", duration: 15 },
+      //   { inicio: "16:15", duration: 10 },
+      //   { inicio: "17:00", duration: 20 },
+      //   { inicio: "17:30", duration: 15 },
+      // ];
       this.setState({
         iniciosTimers: iniciosTimersAux,
         sala: sala,
         duracion: duracion,
         tiempoTotal: tiempoTotal,
-        status: true,
+        // status: true,
         inicio: inicio
       }, () => {
-        this.ChekDates(this.state.iniciosTimers[0], this.state.datenow, this.state.duracion)
+        // setInterval(() => {
+        this.state.iniciosTimers.forEach(inicioTimer => {
+          this.ChekDates(inicioTimer, this.state.duracion)
+        });
       });
+    // }, 1000);
     });
   }
-  
 
-  //Esta funcion comprueba la hora
- ChekDates = (inicioProgramado, horaActual, duracion) => {
-    if(horaActual >= inicioProgramado){
-      
-      localStorage.setItem("comenzar", true);//Esto en App.js comprueba si ya se puede empezar a cronometrar
-      localStorage.setItem("Estimate duration", duracion); //y aqui App.js obtiene los minutos por donde tiene que empezar ej: 15
+//Esta funcion comprueba la hora
+ ChekDates = (inicioProgramado, duracion) => {
+   console.log(inicioProgramado)
+   //Hora actual >= "9:00:15"
+    if(new Date().toTimeString().slice(0, 8) >= inicioProgramado){
+      console.log("si coincide")
+      localStorage.setItem("comenzar", true);//Esto en Router.js comprueba si ya se puede empezar a cronometrar
+      localStorage.setItem("Estimate duration", duracion); //y aqui Router.js obtiene los minutos por donde tiene que empezar ej: 15
+      this.setState({
+        status: true
+      });
     }else{
+      console.log("Si no coincide")
       localStorage.setItem("comenzar", false);
+      this.setState({
+        status: false
+      });
     }
   }
 
-  StartCrono = () => {
-    localStorage.setItem("comenzar", true);//Esto en App.js comprueba si ya se puede empezar a cronometrar
-    localStorage.setItem("Estimate duration", this.state.duracion); //y aqui App.js obtiene los minutos por donde tiene que empezar ej: 15
-  }
 
+  StartCrono = () => {
+    localStorage.setItem("comenzar", true);//Esto en Router.js comprueba si ya se puede empezar a cronometrar
+    localStorage.setItem("Estimate duration", this.state.duracion); //y aqui Router.js obtiene los minutos por donde tiene que empezar ej: 15
+  }
 
   //Cuando cambio de sala
   componentDidMount = () => {
@@ -117,8 +136,9 @@ export default class Temporizador extends Component {
               {/* {renderCountDown()} */}
               {/* <InicioTemp horaactual={savedTime} inicioTemp={savedTime}/> duracion={15} */}
               <DateNow/>
+              {/* <Temp startTimes={this.state.iniciosTimers} /> */}
             <h1>Tiempo total del evento: {this.state.tiempoTotal}</h1>
-            <p>Inicio programado a las: {this.state.iniciosTimers[0]}</p>
+            <p>Inicio programado a las: {this.state.iniciosTimers}</p>
             <button className='btn btn-outline-success' onClick={this.StartCrono}>Start</button>
         </div>
     )
