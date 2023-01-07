@@ -8,7 +8,7 @@ import DateNow from './Timer/DateNow';
 export default class Temporizador extends Component {
   
   state = {
-    // timers: [],
+    tiempoRestante: localStorage.getItem("countdown"),
     iniciosTimers: [],
     mensaje: "",
     status: false,
@@ -94,10 +94,41 @@ export default class Temporizador extends Component {
     localStorage.setItem("Estimate duration", this.state.duracion); //y aqui App.js obtiene los minutos por donde tiene que empezar ej: 15
   }
 
+  cambiarColor = () => {
+    const interval = setInterval(() => {
+      this.setState({
+        tiempoRestante: this.state.tiempoRestante - 1
+      });
+
+      if (this.state.tiempoRestante <= 180) {
+        this.setState({
+          estiloDiv: {
+            backgroundColor: 'orange'
+          }
+        });
+        if(this.state.tiempoRestante <= 60){
+          this.setState({
+            estiloDiv: {
+              backgroundColor: '#e3463b'
+            }
+          });
+        }
+      } else {
+        this.setState({
+          estiloDiv: {
+            backgroundColor: 'white'
+          }
+        });
+      }
+    }, 1000);
+    console.log(interval);
+  }
+
 
   //Cuando cambio de sala
   componentDidMount = () => {
     this.getTimerEventoSala();
+    this.cambiarColor();
   }
 
   render() {
@@ -107,7 +138,7 @@ export default class Temporizador extends Component {
     //   }
     // }
     return (
-        <div className="container-fluid mt-4">
+        <div className="container-fluid mt-4" style={this.state.estiloDiv}>
             <h4>Sala <strong>{this.state.sala}</strong></h4>
               {/* <CountDown minutes={this.state.duracion}/> */}
               {
