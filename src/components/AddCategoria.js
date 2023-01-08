@@ -28,17 +28,20 @@ export default class AddCategoria extends Component {
     axios.post(url, categoria).then(response => {
       this.setState({
         status: true,
-        mensaje: "Categoria "+ nombre +" insertada"
+        mensaje: "Categoria "+ nombre +" insertada con una duración de "+ duracion +" minutos"
       });
     });
   }
 
   render() {
     return (
-        <div>
-            <h1 className='display-3 mt-3'>AÑADIR CATEGORIAS</h1>
-            
-            <form style={{width: "500px", margin: "0 auto"}}>
+        <div className='container-fluid'>
+          <div className='d-flex justify-content-between mt-3'>
+            <NavLink to="/creartemporizadorpag2">Atrás</NavLink>
+          </div>
+            <h1 className='display-3 mt-3'>Añadir categorías</h1>
+            <br/>
+            <form className='container-fluid'>
             <label>Nombre: </label>
             <input type="text" className='form-control'
             ref={this.cajaNombreRef} required/><br/>
@@ -47,15 +50,21 @@ export default class AddCategoria extends Component {
             <input type="number" className='form-control'
             ref={this.cajaDuracionRef} required/><br/>
 
-              <button className='btn btn-primary' onClick={this.crearCategoria}>
-                Guardar
-              </button>
-              <NavLink className='btn btn-info' to={"/creartemporizadorpag4"} >
-                Siguiente
-              </NavLink>
+            <div className="row">
+              <div className="col">
+                <button className='btn btn-primary' onClick={this.crearCategoria}>
+                  Guardar
+                </button>
+              </div>
+              <div className="col">
+                <NavLink className='btn btn-outline-primary' to={"/creartemporizadorpag4"} >
+                  Siguiente
+                </NavLink>
+              </div>
+            </div>
             </form>
-
-            <h2 style={{color:"red"}}>
+            <br/>
+            <h2 style={{color:"blue"}}>
               {this.state.mensaje}
             </h2>
         </div>

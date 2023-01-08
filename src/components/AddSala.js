@@ -8,7 +8,8 @@ export default class AddSala extends Component {
 
   state = {
     mensaje: "",
-    save: false
+    save: false,
+    idSala: 0
   }
 
   crearSala = (e) => {
@@ -19,19 +20,26 @@ export default class AddSala extends Component {
     var request = "/api/salas/createsala/"+nombresala;
     var url = Global.timer + request;
       axios.post(url).then(response => {
+        localStorage.setItem("idSala", response.data.idSala)
+        // console.log(response.data.idSala)
         this.setState({
           save: true,
-          mensaje: "Sala "+nombresala+" guardada"
+          mensaje: "Sala "+nombresala+" guardada",
+          idSala: response.data.idSala
         });
       });
   }
 
   render() {
     return (
-        <div>
-            <h1 className='display-2 mt-3'>AÑADIR SALAS</h1>
-            
-            <form style={{width: "500px", margin: "0 auto"}}>
+
+      <div className='container-fluid'>
+          <div className='d-flex justify-content-between mt-3'>
+            <NavLink to="/creartemporizadorpag1">Atrás</NavLink>
+          </div>
+            <h1 className='display-2 mt-3'>Añadir salas</h1>
+            <br/>
+            <form className='container-fluid'>
             <label>Nombre: </label>
             <input type="text" className='form-control'
             ref={this.cajaNombreRef} required/><br/>
@@ -40,15 +48,27 @@ export default class AddSala extends Component {
             <input type="number" className='form-control'
             ref={this.cajaNumcategoriasRef} required/><br/> */}
 
-              <button className='btn btn-primary' onClick={this.crearSala}>
+              {/* <button className='btn btn-primary me-2' onClick={this.crearSala}>
                 Guardar
               </button>
               <NavLink className='btn btn-info' to={"/creartemporizadorpag3"} >
                 Siguiente
-              </NavLink>
+              </NavLink> */}
+              <div className="row">
+              <div className="col">
+                <button className='btn btn-primary' onClick={this.crearSala}>
+                  Guardar
+                </button>
+              </div>
+              <div className="col">
+                <NavLink className='btn btn-outline-primary' to={"/creartemporizadorpag3"} >
+                  Siguiente
+                </NavLink>
+              </div>
+            </div>
             </form>
-
-            <h2 style={{color:"red"}}>
+            <br/>
+            <h2 style={{color:"blue"}}>
               {this.state.mensaje}
             </h2>
         </div>

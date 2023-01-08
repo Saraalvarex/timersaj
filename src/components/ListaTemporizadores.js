@@ -10,7 +10,8 @@ export default class ListaTemporizadores extends Component {
 
   state = {
     salas: [],
-    statusSalas: false
+    statusSalas: false,
+    tiempoRestante: localStorage.getItem("countdown")
   }
   Get_Salas = () => {
     var request = "/api/timerEventos";
@@ -23,15 +24,47 @@ export default class ListaTemporizadores extends Component {
     })
   }
 
+  cambiarColor = () => {
+    const interval = setInterval(() => {
+      this.setState({
+        tiempoRestante: this.state.tiempoRestante - 1
+      });
+
+      if (this.state.tiempoRestante <= 180) {
+        this.setState({
+          estiloDiv: {
+            backgroundColor: 'orange'
+          }
+        });
+        if(this.state.tiempoRestante <= 60){
+          this.setState({
+            estiloDiv: {
+              backgroundColor: '#e3463b'
+            }
+          });
+        }
+      } else {
+        this.setState({
+          estiloDiv: {
+            backgroundColor: 'white'
+          }
+        });
+      }
+    }, 1000);
+    console.log(interval);
+  }
+
   componentDidMount = () => {
     this.Get_Salas();
+    this.cambiarColor();
   }
+
 
   render() {
     return(
       <div className='container-fluid'>
         <div className='d-flex justify-content-between mt-3'>
-          <NavLink to="/">Volver</NavLink>
+          <NavLink to="/configuretemp">Añade salas</NavLink>
           <h1 className='display-2 '>Tus salas</h1>
         </div>
         <hr/>
@@ -41,7 +74,7 @@ export default class ListaTemporizadores extends Component {
           (
             this.state.salas.map((sala, index)=> {
               return(
-                <div key={index} className="card mb-3" style={{width: "auto"}}>
+                <div key={index} className="card mb-3 container-fluid" style={this.state.estiloDiv}>
                   <div className="card-img-top">
                     {
                       localStorage.getItem("countdown") ?
