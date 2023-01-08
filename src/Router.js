@@ -13,6 +13,8 @@ import ListaTemporizadores from './components/ListaTemporizadores';
 import Menu from './components/Menu';
 // import CountDownGeneral from './components/Timer/CountdownGeneral';
 import CreateTempSala from './components/CreateTempSala';
+import Login from './components/Login';
+import CrearEmpresas from './components/CrearEmpresas';
 
 export default class Router extends Component {
   render() {
@@ -37,6 +39,9 @@ export default class Router extends Component {
           <Route path='/salas' element={<ListaTemporizadores/>}/>
           <Route path='/addempresa' element={<AddEmpresa/>}/>
           <Route path='/eventos' element={<Eventos/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/creaempresa' element={<CrearEmpresas/>}/>
+
           <Route path='/configuretemp' element={<CreateTempSala/>}/>
         </Routes>
       </BrowserRouter>

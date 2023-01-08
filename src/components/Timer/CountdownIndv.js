@@ -1,8 +1,4 @@
-//La razón de esta funcion es para que recoja el tiempo del local storage que va actualizandose del CountdownGeneral.js
-//Sería buena idea que el countdown general llevase el tiempo ya que Si juan cambia de Temporizador.js (es decir, de sala en sala) 
-//El contador YA NO SE REINICIA
-
-import { useEffect, useRef, useState } from "react";
+import React, {useState, useRef, useEffect } from 'react';
 
 //Lo formatea a horas:min:segundos
 const formatTime = (time) =>{
@@ -15,13 +11,15 @@ const formatTime = (time) =>{
     return minutes + ':' + seconds
 }
 
-export default function CountDownIndv({seconds}) {
+export default function CountDownIndv({minutes}) {
+    var seconds = minutes *60
     // Inicializa el estado de countdown con el valor almacenado en localStorage
     // o con seconds si no hay ningún valor almacenado
     const [countdown, setCountdown] = useState(
         parseInt(localStorage.getItem("countdown")) || seconds
     );
     // Actualizo el countdown al tiempo transcurrido
+    localStorage.setItem("countdown", countdown);
     // if(localStorage.getItem("comenzar") === true){
     const timerId = useRef();
  
@@ -35,15 +33,14 @@ export default function CountDownIndv({seconds}) {
     useEffect(()=> {
         if(countdown <= 0){
             clearInterval(timerId.current);
-            console.log("Contador en 0")
             // Borra el countdown del localStorage
+            localStorage.setItem("break", true)
             localStorage.removeItem("countdown");
+            localStorage.removeItem("Estimate duration");
+            localStorage.removeItem("categoria")
         }
     }, [countdown])
-    // useEffect(() => {
-    //     localStorage.setItem("countdown", countdown);
-    //   }, [countdown]);
-    localStorage.setItem("countdown", countdown);
+    console.log(localStorage.getItem("countdown"));
     console.log(countdown)
     return (
         <h1 className="display-1">{formatTime(countdown)}</h1>

@@ -29,7 +29,7 @@ export default function DateNow() {
 
   return (
     <div>
-      <h1>Hora actual: {time}</h1>
+      <h4>Hora actual: {time}</h4>
     </div>
   );
 }
