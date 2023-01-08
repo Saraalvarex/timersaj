@@ -15,13 +15,15 @@ const formatTime = (time) =>{
     return minutes + ':' + seconds
 }
 
-export default function CountDownIndv({seconds}) {
+export default function CountDownIndv({minutes}) {
+    var seconds = minutes *60
     // Inicializa el estado de countdown con el valor almacenado en localStorage
     // o con seconds si no hay ningún valor almacenado
     const [countdown, setCountdown] = useState(
         parseInt(localStorage.getItem("countdown")) || seconds
     );
     // Actualizo el countdown al tiempo transcurrido
+    localStorage.setItem("countdown", countdown);
     // if(localStorage.getItem("comenzar") === true){
     const timerId = useRef();
  
@@ -35,15 +37,16 @@ export default function CountDownIndv({seconds}) {
     useEffect(()=> {
         if(countdown <= 0){
             clearInterval(timerId.current);
-            console.log("Contador en 0")
             // Borra el countdown del localStorage
             localStorage.removeItem("countdown");
+            localStorage.removeItem("Estimate duration");
         }
     }, [countdown])
     // useEffect(() => {
     //     localStorage.setItem("countdown", countdown);
     //   }, [countdown]);
-    localStorage.setItem("countdown", countdown);
+
+    console.log(localStorage.getItem("countdown"));
     console.log(countdown)
     return (
         <h1 className="display-1">{formatTime(countdown)}</h1>

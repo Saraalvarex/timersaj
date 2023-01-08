@@ -4,7 +4,7 @@ import Global from '../Global';
 import CountDownIndv from './Timer/CountdownIndv';
 import DateNow from './Timer/DateNow';
 // import moment from 'moment';
-// import Temp from './Temp';
+import App from './../App.css';
 
 export default class Temporizador extends Component {
   
@@ -13,8 +13,8 @@ export default class Temporizador extends Component {
     timers: [],
     iniciosTimers: [],
     mensaje: "",
-    status: false, 
-    time: 0
+    status: false
+    // time: localStorage.getItem("countdown")
   }
 
   //Cambia el formato "2023-01-18T09:00:00" a 09:00:00
@@ -64,16 +64,17 @@ export default class Temporizador extends Component {
             iniciosTimersAux.push({
               inicio: this.changeFormat(timer.inicioTimer),
               duracion: parseInt(timer.duracion),
+              categoria: timer.categoria
             });
             const fin = new Date(timer.finEvento);
             tiempoTotal = (fin.getTime() - inicio.getTime()) / 3600000; // 5.5
         });
       this.setState({
         iniciosTimers: [
-          { inicio: "17:59:20", duracion: 15, isRunning: false  }, //15 min
-          { inicio: "17:51:35", duracion: 20, isRunning: false  }, //30min
-          { inicio: "18:06:22", duracion: 3600, isRunning: false  }, //1 hora
-          { inicio: "18:05:20", duracion: 60, isRunning: false  }
+          { inicio: "21:24:00", duracion: 1, categoria: "WORK", isRunning: false  }, //15 min
+          { inicio: "21:23:30", duracion: 1, categoria: "DESCANSO", isRunning: false  }, //30min
+          { inicio: "21:15:02", duracion: 1, categoria: "DESCANSO MEDIO", isRunning: false  }, //1 hora
+          { inicio: "20:57:55", duracion: 10, categoria: "TRABAJO", isRunning: false  }
         ],
         timers: iniciosTimersAux,
         sala: sala,
@@ -85,41 +86,36 @@ export default class Temporizador extends Component {
     //Si localstorage countdwon esta vacio o a 0 milisegundos, busco el siguiente temp
      setInterval(() => {
       this.state.iniciosTimers.forEach((inicioTimer) => {
-        this.ChekDates(inicioTimer.inicio, inicioTimer.duracion);
+        this.ChekDates(inicioTimer.inicio, inicioTimer.duracion, inicioTimer.categoria);
       })
     }, 1000);
     });
   }
 
 //Comprueba la hora
- ChekDates = (inicioProgramado, duracion) => {
+ ChekDates = (inicioProgramado, duracion, categoria) => {
    // Obtiene la hora actual en formato hh:mm:ss
     const currentTime = new Date().toTimeString().slice(0, 8);
     // Si la hora actual es igual a la hora de inicio programada
     if (currentTime === inicioProgramado) {
-      console.log("Dentro", inicioProgramado)
-      // Establece el estado de "comenzar" en true y almacena la nueva duración en localStorage
-      localStorage.setItem("comenzar", true);
-      this.setState({
-        time: duracion,
-        iniciosTimers: this.state.iniciosTimers.filter(item => item.isRunning === true)
-      })
-      console.log(duracion)
+      // window.location.reload();
+      console.log("Dentro: ", inicioProgramado)
       localStorage.setItem("countdown", duracion)
-      // localStorage.setItem("Estimate duration", duracion);
+      localStorage.setItem("categoria", categoria)
+      // Establece el estado de "comenzar" en true y
+      // localStorage.setItem("comenzar", true);
+      // this.setState({
+      //   time: duracion,
+      //   iniciosTimers: this.state.iniciosTimers.filter(item => item.isRunning === true)
+      // })
+      localStorage.setItem("Estimate duration", duracion);
     } else {
-      localStorage.setItem("comenzar", false);
-      this.setState({
-        // time: 0,
-        iniciosTimers: this.state.iniciosTimers.filter(item => item.isRunning === false)
-      })
+      // localStorage.setItem("comenzar", false);
+      // this.setState({
+      //   iniciosTimers: this.state.iniciosTimers.filter(item => item.isRunning === false)
+      // })
     }
   }
-
-  //StartCrono = () => {
-    //localStorage.setItem("comenzar", true);//Esto en App.js comprueba si ya se puede empezar a cronometrar
-    //localStorage.setItem("Estimate duration", this.state.duracion); //y aqui App.js obtiene los minutos por donde tiene que empezar ej: 15
-  //}
 
   cambiarColor = () => {
     const interval = setInterval(() => {
@@ -148,7 +144,7 @@ export default class Temporizador extends Component {
         });
       }
     }, 1000);
-    console.log(interval);
+    // console.log(interval);
   }
 
   //Cuando cambio de sala
@@ -157,16 +153,22 @@ export default class Temporizador extends Component {
     this.cambiarColor();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevProps)
+    console.log(prevState)
+    // this.getTimerEventoSala();
+  }
+
   render() {
     return (
-        <div className="container-fluid mt-4" style={this.state.estiloDiv}>
+        // <div className="container-fluid mt-4" style={this.state.estiloDiv}>
+          <div className="page-container">
             <h4>Sala <strong>{this.state.sala}</strong></h4>
-              <CountDownIndv seconds={this.state.time}/>
-              {/* <CountDownIndv seconds={localStorage.getItem("countdown")}/> */}
+              {/* <CountDownIndv minutes={localStorage.getItem("countdown")}/> */}
+              <CountDownIndv minutes={localStorage.getItem("Estimate duration")}/>
               <DateNow/>
-            <p>Tiempo total del evento: {this.state.tiempoTotal}</p>
-            {/* <p>Inicio programado a las: {this.state.iniciosTimers}</p> */}
-            {/* <button className='btn btn-outline-success' onClick={this.StartCrono}>Start</button> */}
+              <h4>{localStorage.getItem("categoria")}</h4>
+            {/* <p>Tiempo total del evento: {this.state.tiempoTotal}</p> */}
         </div>
     )
   }
