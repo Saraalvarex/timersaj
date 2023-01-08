@@ -150,7 +150,6 @@ export default class Temporizador extends Component {
     }, 1000);
     console.log(interval);
   }
-  };
 
   //Cuando cambio de sala
   componentDidMount = () => {
