@@ -54,6 +54,7 @@ export default class ListaTemporizadores extends Component {
     console.log(interval);
   }
 
+
   componentDidMount = () => {
     this.Get_Salas();
     this.cambiarColor();

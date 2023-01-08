@@ -19,6 +19,9 @@ export default class Menu extends Component {
                 <NavLink className="nav-link" to="/creartemporizadorpag1">Crear Evento</NavLink>
               </li>
               <li className="nav-item">
+                <NavLink className="nav-link" to="/creaempresa">Añadir Empresas</NavLink>
+              </li>
+              <li className="nav-item">
                 <NavLink className="nav-link">Identificarse</NavLink>
               </li>
             </ul>
