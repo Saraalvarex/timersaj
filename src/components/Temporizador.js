@@ -13,7 +13,7 @@ export default class Temporizador extends Component {
     iniciosTimers: [],
     mensaje: "",
     status: false, 
-    duracion: 0
+    time: 0
   }
 
   //Cambia el formato "2023-01-18T09:00:00" a 09:00:00
@@ -69,10 +69,10 @@ export default class Temporizador extends Component {
         });
       this.setState({
         iniciosTimers: [
-          { inicio: "17:50:00", duracion: 50 },
-          { inicio: "18:15:20", duracion: 20 },
-          { inicio: "18:28:00", duracion: 35 },
-          { inicio: "18:45:00", duracion: 30 }
+          { inicio: "17:59:20", duracion: 15, isRunning: false  }, //15 min
+          { inicio: "17:51:35", duracion: 20, isRunning: false  }, //30min
+          { inicio: "18:06:22", duracion: 3600, isRunning: false  }, //1 hora
+          { inicio: "18:05:20", duracion: 60, isRunning: false  }
         ],
         timers: iniciosTimersAux,
         sala: sala,
@@ -80,13 +80,6 @@ export default class Temporizador extends Component {
         // status: true,
         inicio: inicio
       })
-      // , () => {
-        // setInterval(() => {
-      //   this.state.iniciosTimers.forEach((inicioTimer) => {
-      //     this.ChekDates(inicioTimer.inicio, inicioTimer.duracion);
-      //   });
-      // });
-    // }, 1000);
 
     //Si localstorage countdwon esta vacio o a 0 milisegundos, busco el siguiente temp
      setInterval(() => {
@@ -97,23 +90,28 @@ export default class Temporizador extends Component {
     });
   }
 
-//Esta funcion comprueba la hora
+//Comprueba la hora
  ChekDates = (inicioProgramado, duracion) => {
    // Obtiene la hora actual en formato hh:mm:ss
     const currentTime = new Date().toTimeString().slice(0, 8);
-    // Si la hora actual es mayor o igual que la hora de inicio programada
-    // console.log(inicioProgramado)
-    if (currentTime >= inicioProgramado) {
-      // console.log(duracion)
+    // Si la hora actual es igual a la hora de inicio programada
+    if (currentTime === inicioProgramado) {
+      console.log("Dentro", inicioProgramado)
       // Establece el estado de "comenzar" en true y almacena la nueva duración en localStorage
       localStorage.setItem("comenzar", true);
       this.setState({
-        duracion: duracion
+        time: duracion,
+        iniciosTimers: this.state.iniciosTimers.filter(item => item.isRunning === true)
       })
+      console.log(duracion)
+      localStorage.setItem("countdown", duracion)
       // localStorage.setItem("Estimate duration", duracion);
-      // localStorage.setItem("countdown", duracion* 60 * 1000);
-    // } else {
-    //   localStorage.setItem("comenzar", false);
+    } else {
+      localStorage.setItem("comenzar", false);
+      this.setState({
+        // time: 0,
+        iniciosTimers: this.state.iniciosTimers.filter(item => item.isRunning === false)
+      })
     }
   };
 
@@ -126,8 +124,7 @@ export default class Temporizador extends Component {
     return (
         <div className="container-fluid mt-4">
             <h4>Sala <strong>{this.state.sala}</strong></h4>
-              {/* <CountDown minutes={this.state.duracion}/> */}
-              <CountDownIndv seconds={this.state.duracion}/>
+              <CountDownIndv seconds={this.state.time}/>
               {/* <CountDownIndv seconds={localStorage.getItem("countdown")}/> */}
               <DateNow/>
             <p>Tiempo total del evento: {this.state.tiempoTotal}</p>

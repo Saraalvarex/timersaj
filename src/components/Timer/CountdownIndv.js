@@ -23,11 +23,8 @@ export default function CountDownIndv({seconds}) {
     );
     // Actualizo el countdown al tiempo transcurrido
     // if(localStorage.getItem("comenzar") === true){
-        localStorage.setItem("countdown", countdown)
-        // console.log(localStorage.getItem("countdown"))
-    // }
     const timerId = useRef();
-
+ 
     useEffect(() => {
         timerId.current = setInterval(()=>{
             setCountdown(prev => prev -1)
@@ -38,11 +35,16 @@ export default function CountDownIndv({seconds}) {
     useEffect(()=> {
         if(countdown <= 0){
             clearInterval(timerId.current);
+            console.log("Contador en 0")
             // Borra el countdown del localStorage
             localStorage.removeItem("countdown");
         }
     }, [countdown])
-
+    // useEffect(() => {
+    //     localStorage.setItem("countdown", countdown);
+    //   }, [countdown]);
+    localStorage.setItem("countdown", countdown);
+    console.log(countdown)
     return (
         <h1 className="display-1">{formatTime(countdown)}</h1>
     )
