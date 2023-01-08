@@ -49,6 +49,7 @@ export default class Temporizador extends Component {
 
     axios.get(url).then(res => {
         var timers = res.data;
+        console.log(res.data)
         var iniciosTimersAux = []
         //La sala, evento y tiempo inicio y tiempo fin debería ser común en todos los temps de una sala
         var sala = "";
@@ -71,10 +72,10 @@ export default class Temporizador extends Component {
         });
       this.setState({
         iniciosTimers: [
-          { inicio: "21:24:00", duracion: 1, categoria: "WORK", isRunning: false  }, //15 min
-          { inicio: "21:23:30", duracion: 1, categoria: "DESCANSO", isRunning: false  }, //30min
-          { inicio: "21:15:02", duracion: 1, categoria: "DESCANSO MEDIO", isRunning: false  }, //1 hora
-          { inicio: "20:57:55", duracion: 10, categoria: "TRABAJO", isRunning: false  }
+          { inicio: "00:20:00", duracion: 0.5, categoria: "WORK", isRunning: true  },
+          { inicio: "00:17:20", duracion: 0.5, categoria: "BREAK", isRunning: false  },
+          { inicio: "00:17:55", duracion: 0.3, categoria: "WORK", isRunning: false  },
+          { inicio: "00:18:30", duracion: 0.6, categoria: "TRABAJO", isRunning: false  }
         ],
         timers: iniciosTimersAux,
         sala: sala,
@@ -82,29 +83,24 @@ export default class Temporizador extends Component {
         // status: true,
         inicio: inicio
       })
-
-    //Si localstorage countdwon esta vacio o a 0 milisegundos, busco el siguiente temp
-     setInterval(() => {
-      this.state.iniciosTimers.forEach((inicioTimer) => {
-        this.ChekDates(inicioTimer.inicio, inicioTimer.duracion, inicioTimer.categoria);
-      })
-    }, 1000);
     });
   }
 
 //Comprueba la hora
- ChekDates = (inicioProgramado, duracion, categoria) => {
+ ChekDates = (inicioProgramado, duracion, categoria, isRunning) => {
    // Obtiene la hora actual en formato hh:mm:ss
     const currentTime = new Date().toTimeString().slice(0, 8);
     // Si la hora actual es igual a la hora de inicio programada
     if (currentTime === inicioProgramado) {
-      // window.location.reload();
       console.log("Dentro: ", inicioProgramado)
       localStorage.setItem("countdown", duracion)
       localStorage.setItem("categoria", categoria)
       // Establece el estado de "comenzar" en true y
       // localStorage.setItem("comenzar", true);
       // this.setState({
+      //   iniciosTimers: [
+      //     { inicio: inicioProgramado, duracion: 1, categoria: "WORK", isRunning: true }
+      //   ]
       //   time: duracion,
       //   iniciosTimers: this.state.iniciosTimers.filter(item => item.isRunning === true)
       // })
@@ -154,9 +150,12 @@ export default class Temporizador extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(prevProps)
-    console.log(prevState)
-    // this.getTimerEventoSala();
+    //Si localstorage countdwon esta vacio o a 0 milisegundos, busco el siguiente temp
+    // setInterval(() => {
+      this.state.iniciosTimers.forEach((inicioTimer) => {
+        this.ChekDates(inicioTimer.inicio, inicioTimer.duracion, inicioTimer.categoria);
+      })
+    // }, 1000);
   }
 
   render() {
@@ -164,9 +163,10 @@ export default class Temporizador extends Component {
         // <div className="container-fluid mt-4" style={this.state.estiloDiv}>
           <div className="page-container">
             <h4>Sala <strong>{this.state.sala}</strong></h4>
+              {localStorage.getItem("Estimate duration") != null ? <CountDownIndv minutes={localStorage.getItem("Estimate duration")}/> : null}
               {/* <CountDownIndv minutes={localStorage.getItem("countdown")}/> */}
-              <CountDownIndv minutes={localStorage.getItem("Estimate duration")}/>
-              <DateNow/>
+              {/* <CountDownIndv minutes={localStorage.getItem("Estimate duration")}/> */}
+              {/* <DateNow/> */}
               <h4>{localStorage.getItem("categoria")}</h4>
             {/* <p>Tiempo total del evento: {this.state.tiempoTotal}</p> */}
         </div>
