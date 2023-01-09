@@ -1,4 +1,4 @@
 var Global = {
-    timer: "https://localhost:5001"
+    timer: "https://apitimers.azurewebsites.net"
 }
 export default Global;

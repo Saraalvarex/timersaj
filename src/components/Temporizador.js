@@ -72,9 +72,9 @@ export default class Temporizador extends Component {
         });
       this.setState({
         iniciosTimers: [
-          { inicio: "00:20:00", duracion: 0.5, categoria: "WORK", isRunning: true  },
-          { inicio: "00:17:20", duracion: 0.5, categoria: "BREAK", isRunning: false  },
-          { inicio: "00:17:55", duracion: 0.3, categoria: "WORK", isRunning: false  },
+          { inicio: "09:28:20", duracion: 0.5, categoria: "WORK", isRunning: true  },
+          { inicio: "09:27:20", duracion: 0.5, categoria: "BREAK", isRunning: false  },
+          { inicio: "9:29:50", duracion: 1, categoria: "hahahha", isRunning: false  },
           { inicio: "00:18:30", duracion: 0.6, categoria: "TRABAJO", isRunning: false  }
         ],
         timers: iniciosTimersAux,
@@ -166,7 +166,7 @@ export default class Temporizador extends Component {
               {localStorage.getItem("Estimate duration") != null ? <CountDownIndv minutes={localStorage.getItem("Estimate duration")}/> : null}
               {/* <CountDownIndv minutes={localStorage.getItem("countdown")}/> */}
               {/* <CountDownIndv minutes={localStorage.getItem("Estimate duration")}/> */}
-              {/* <DateNow/> */}
+              <DateNow/>
               <h4>{localStorage.getItem("categoria")}</h4>
             {/* <p>Tiempo total del evento: {this.state.tiempoTotal}</p> */}
         </div>

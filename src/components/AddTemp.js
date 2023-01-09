@@ -60,33 +60,33 @@ export default class AddTemp extends Component {
     var temp = {
         idTemporizador: 0,
         inicio: inicio,
-        idCategoria: this.state.selectedId,
+        idCategoria: this.state.selectedIdCategoria,
         pausa: false
     };
 
     axios.post(url+requestTimers, temp).then(response => {
       this.setState({
         status: true,
-        idTemp: response.idTemporizador,
+        idTemp: response.data.idTemporizador,
         mensaje: "Temporizador insertado"
       });
+      console.log(response.data.idTemporizador)
     });
 
-    var requestTiempos = "/api/tiempoempresasala";
-    var registro = {
-      id: 1,
-      idTimer: this.state.idTemp,
-      idEmpresa: 4,
-      idSala: this.state.selectedIdSala,
-      idEvento: localStorage.getItem("idEvento")
-    };
+    // var requestTiempos = "/api/tiempoempresasala";
+    // var registro = {
+    //   id: 1,
+    //   idTimer: this.state.idTemp,
+    //   idEmpresa: 4,
+    //   idSala: this.state.selectedIdSala,
+    //   idEvento: localStorage.getItem("idEvento")
+    // };
 
-    axios.post(url+requestTiempos, registro).then(response => {
-      this.setState({
-        save: true
-      });
-    });
-
+    // axios.post(url+requestTiempos, registro).then(response => {
+    //   this.setState({
+    //     save: true
+    //   });
+    // });
   }
 
   componentDidMount = () => {
@@ -104,7 +104,7 @@ export default class AddTemp extends Component {
             <h1 className='display-3 mt-3'>Añadir temporizadores</h1>
             <br/>
             <form className='container-fluid'>
-
+{/* 
             <label>Sala:</label>
                 <select className='form-control' onChange={this.handleChangeSala}>
                   {this.state.salas.map((sala) => (
@@ -113,9 +113,9 @@ export default class AddTemp extends Component {
                     </option>
                   ))}
                 </select>
-              <br/>
+              <br/> */}
               <label>Categoría:</label>
-                <select className='form-control' onChange={this.handleChangeCategoria}>
+                <select className='form-select' onChange={this.handleChangeCategoria}>
                   {this.state.categorias.map((categoria) => (
                     <option className="form-control" key={categoria.idCategoria} value={categoria.idCategoria}>
                       {categoria.categoria}
@@ -135,7 +135,10 @@ export default class AddTemp extends Component {
                   </button>
                 </div>
                 <div className="col">
-                <NavLink className='btn btn-outline-primary' to="/" >
+
+                
+
+                <NavLink className='btn btn-outline-primary' to="/salas" >
                     Terminar y salir
                   </NavLink>
                 </div>

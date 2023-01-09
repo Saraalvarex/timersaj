@@ -105,6 +105,16 @@ export default class CreateTempSala extends Component {
         this.GetCategorias();
     }
 
+    dameCategoria = (mycat) => {
+        var res = "";
+        this.state.categorias.forEach(cat => {
+            if (cat.idCategoria === mycat) {
+                res = cat.categoria +  " duración de " +cat.duracion ;
+            }
+        });
+        return res;
+    }
+
   render() {
     return (
       <div>
@@ -136,13 +146,13 @@ export default class CreateTempSala extends Component {
                 </select>
             </div>
             <div className="mb-3 container-fluid">
-                <select className="form-select form-select-lg mb-3 bg-warning" aria-label=".form-select-lg example" ref={this.selectDuracion}>
+                <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" ref={this.selectDuracion}>
                     <option disabled>Establezca la duración</option>
                     {
                         this.state.tiempos.map((temp, index)=> {
                             return(
                                 <option key={index} value={temp.idTemporizador}>{
-                                    temp.idTemporizador
+                                    this.dameCategoria(temp.idCategoria) //Work 
                                 }</option>
                             )
                         })
@@ -166,9 +176,9 @@ export default class CreateTempSala extends Component {
             </form>
 
              {/* Button trigger modal  */}
-            <button type="button" className="btn btn-warning mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            {/* <button type="button" className="btn btn-warning mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Detalles
-            </button>
+            </button> */}
 
             <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
