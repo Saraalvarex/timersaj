@@ -11,8 +11,8 @@ const formatTime = (time) =>{
     return minutes + ':' + seconds
 }
 
-export default function CountDownIndv({minutes}) {
-    var seconds = minutes *60
+export default function CountDownIndv({seconds}) {
+    // var seconds = minutes*60;
     // Inicializa el estado de countdown con el valor almacenado en localStorage
     // o con seconds si no hay ningún valor almacenado
     const [countdown, setCountdown] = useState(

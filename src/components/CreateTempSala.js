@@ -109,7 +109,7 @@ export default class CreateTempSala extends Component {
         var res = "";
         this.state.categorias.forEach(cat => {
             if (cat.idCategoria === mycat) {
-                res = cat.categoria +  " duración de " +cat.duracion ;
+                res = cat.categoria +  ", duración de " +cat.duracion + " minutos" ;
             }
         });
         return res;
@@ -152,7 +152,7 @@ export default class CreateTempSala extends Component {
                         this.state.tiempos.map((temp, index)=> {
                             return(
                                 <option key={index} value={temp.idTemporizador}>{
-                                    this.dameCategoria(temp.idCategoria) //Work 
+                                    this.dameCategoria(temp.idCategoria) + " inicia: "+temp.inicio 
                                 }</option>
                             )
                         })
@@ -205,7 +205,7 @@ export default class CreateTempSala extends Component {
                 </div>
             </div>
 
-            <h2 style={{color:"red"}}>
+            <h2 style={{color:"blue"}}>
               {this.state.mensaje}
             </h2>
       </div>

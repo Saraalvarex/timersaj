@@ -64,7 +64,7 @@ export default class Temporizador extends Component {
             // Agrega inicio y duración de cada timer al array
             iniciosTimersAux.push({
               inicio: this.changeFormat(timer.inicioTimer),
-              duracion: parseInt(timer.duracion),
+              duracion: parseInt((timer.duracion*60)),
               categoria: timer.categoria
             });
             const fin = new Date(timer.finEvento);
@@ -72,7 +72,7 @@ export default class Temporizador extends Component {
         });
       this.setState({
         iniciosTimers: [
-          { inicio: "09:28:20", duracion: 0.5, categoria: "WORK", isRunning: true  },
+          { inicio: "14:10:20", duracion: 0.5, categoria: "WORK", isRunning: true  },
           { inicio: "09:27:20", duracion: 0.5, categoria: "BREAK", isRunning: false  },
           { inicio: "9:29:50", duracion: 1, categoria: "hahahha", isRunning: false  },
           { inicio: "00:18:30", duracion: 0.6, categoria: "TRABAJO", isRunning: false  }
@@ -152,7 +152,7 @@ export default class Temporizador extends Component {
   componentDidUpdate(prevProps, prevState) {
     //Si localstorage countdwon esta vacio o a 0 milisegundos, busco el siguiente temp
     // setInterval(() => {
-      this.state.iniciosTimers.forEach((inicioTimer) => {
+      this.state.timers.forEach((inicioTimer) => {
         this.ChekDates(inicioTimer.inicio, inicioTimer.duracion, inicioTimer.categoria);
       })
     // }, 1000);

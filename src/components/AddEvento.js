@@ -11,7 +11,7 @@ export default class AddEvento extends Component {
   cajaFinRef = React.createRef();
 
   state = {
-    // mensaje: "",
+    mensaje: "",
     status: false
   }
 
@@ -34,8 +34,8 @@ export default class AddEvento extends Component {
     axios.post(url, evento).then(response => {
       localStorage.setItem("idEvento", response.data.idEvento)
       this.setState({
-        status: true
-        // mensaje: "Evento insertado"
+        status: true,
+        mensaje: "Evento insertado"
       });
     });
   }
@@ -68,9 +68,14 @@ export default class AddEvento extends Component {
               </div>
               <br/>
 
-              <button className='btn btn-info' onClick={this.crearEvento}>
-                Siguiente
+              <button className='btn btn-primary' onClick={this.crearEvento}>
+                Guardar
               </button>
+              <NavLink className='btn btn-info' to="/creartemporizadorpag2">
+                Siguiente
+              </NavLink><br/>
+
+              <h2 style={{color: "blue"}}>{this.state.mensaje}</h2>
             </form>
         </div>
     )
