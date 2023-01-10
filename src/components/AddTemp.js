@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Global from '../Global';
 import { NavLink } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 
 export default class AddTemp extends Component {
   cajaInicioRef = React.createRef();
@@ -98,9 +99,8 @@ export default class AddTemp extends Component {
     return (
       <div className='container-fluid'>
         <div className='d-flex justify-content-between mt-3'>
-          <NavLink to="/creartemporizadorpag3">Atrás</NavLink>
+          <NavLink to="/creartemporizadorpag3"><Icon icon="line-md:chevron-left-circle" color="#0d6efd" width="50" /></NavLink>
         </div>
-
             <h1 className='display-3 mt-3'>Añadir temporizadores</h1>
             <br/>
             <form className='container-fluid'>
@@ -126,7 +126,7 @@ export default class AddTemp extends Component {
 
                 <label>Inicio: </label>
                 <input type="datetime-local" className='form-control'
-                ref={this.cajaInicioRef} required/><br/>
+                ref={this.cajaInicioRef} defaultValue={new Date().toISOString().substr(0, 16)} required/><br/>
 
               <div className="row">
                 <div className="col">
@@ -135,9 +135,6 @@ export default class AddTemp extends Component {
                   </button>
                 </div>
                 <div className="col">
-
-                
-
                 <NavLink className='btn btn-outline-primary' to="/salas" >
                     Terminar y salir
                   </NavLink>

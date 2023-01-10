@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Global from '../Global';
 import { NavLink } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 
 export default class AddCategoria extends Component {
   cajaNombreRef = React.createRef();
@@ -37,7 +38,7 @@ export default class AddCategoria extends Component {
     return (
         <div className='container-fluid'>
           <div className='d-flex justify-content-between mt-3'>
-            <NavLink to="/creartemporizadorpag2">Atrás</NavLink>
+            <NavLink to="/creartemporizadorpag2"><Icon icon="line-md:chevron-left-circle" color="#0d6efd" width="50" /></NavLink>
           </div>
             <h1 className='display-3 mt-3'>Añadir categorías</h1>
             <br/>

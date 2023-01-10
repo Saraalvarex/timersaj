@@ -69,6 +69,31 @@ export default class CreateTempSala extends Component {
         });
     }
 
+    
+  //Cambia el formato "2023-01-18T09:00:00" a 09:00:00
+  changeFormat = (dateString) => {
+    const date = new Date(dateString);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+
+    let hoursString = hours;
+    if (hours < 10) {
+      hoursString = '0' + hours;
+    }
+
+    let minutesString = minutes;
+    if (minutes < 10) {
+      minutesString = '0' + minutes;
+    }
+
+    let secondsString = seconds;
+    if (seconds < 10) {
+      secondsString = '0' + seconds;
+    }
+    var timeString = `${hoursString}:${minutesString}:${secondsString}`;
+    return timeString;
+  }
 
     AddTemporizador = (e) => {
         e.preventDefault();
@@ -109,7 +134,7 @@ export default class CreateTempSala extends Component {
         var res = "";
         this.state.categorias.forEach(cat => {
             if (cat.idCategoria === mycat) {
-                res = cat.categoria +  ", duración de " +cat.duracion + " minutos" ;
+                res = cat.categoria +  " - " +cat.duracion + " min" ;
             }
         });
         return res;
@@ -118,10 +143,26 @@ export default class CreateTempSala extends Component {
   render() {
     return (
       <div>
-        <h1>Configura tu sala</h1>
+    {/* <div className="page-container"> */}
+        <br/>
+        <h1>Configurar temporizadores</h1>
         <hr/>
         <form>
             <div className="mb-3 container-fluid">
+                <label>Evento: </label>
+                <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" ref={this.selectEvento}>
+                    <option disabled>Insertalo en un evento</option>
+                    {
+                        this.state.eventos.map((ev, index)=> {
+                            return(
+                                <option key={index} value={ev.idEvento}>{ev.nombreEvento}</option>
+                            )
+                        })
+                    }
+                </select>
+            </div>
+            <div className="mb-3 container-fluid">
+            <label>Sala: </label>
                 <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" ref={this.selectSala}>
                     <option disabled>Selecciona una sala</option>
                     {
@@ -134,6 +175,7 @@ export default class CreateTempSala extends Component {
                 </select>
             </div>
             <div className="mb-3 container-fluid">
+            <label>Empresa: </label>
                 <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" ref={this.selectEmpresa}>
                     <option disabled>Asigne una empresa a la sala</option>
                     {
@@ -146,65 +188,37 @@ export default class CreateTempSala extends Component {
                 </select>
             </div>
             <div className="mb-3 container-fluid">
+            <label>Categoría - duración - inicio: </label>
                 <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" ref={this.selectDuracion}>
                     <option disabled>Establezca la duración</option>
                     {
                         this.state.tiempos.map((temp, index)=> {
                             return(
                                 <option key={index} value={temp.idTemporizador}>{
-                                    this.dameCategoria(temp.idCategoria) + " inicia: "+temp.inicio 
+                                    this.dameCategoria(temp.idCategoria) + " -  "+this.changeFormat(temp.inicio)
                                 }</option>
                             )
                         })
                     }
                 </select>
             </div>
-            <div className="mb-3 container-fluid">
-                <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" ref={this.selectEvento}>
-                    <option disabled>Insertalo en un evento</option>
-                    {
-                        this.state.eventos.map((ev, index)=> {
-                            return(
-                                <option key={index} value={ev.idEvento}>{ev.nombreEvento}</option>
-                            )
-                        })
-                    }
-                </select>
-            </div>
-            <button className="btn btn-success me-2" onClick={this.AddTemporizador}>Añadir</button>
-            <NavLink to="/salas" className="btn btn-primary">He terminado</NavLink>
+            <br/>
+            {/* <button className="btn btn-success me-2" onClick={this.AddTemporizador}>Añadir</button>
+            <NavLink to="/salas" className="btn btn-primary">Finalizar</NavLink> */}
+            {/* <div className="row">
+              <div className="col"> */}
+                <button className='btn btn-primary me-2' onClick={this.AddTemporizador}>
+                  Guardar
+                </button>
+              {/* </div> */}
+              {/* <div className="col"> */}
+                <NavLink className='btn btn-outline-primary' to="/salas">
+                  Salir
+                </NavLink>
+              {/* </div>
+              </div> */}
             </form>
-
-             {/* Button trigger modal  */}
-            {/* <button type="button" className="btn btn-warning mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Detalles
-            </button> */}
-
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header bg-warning">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Significado de los números</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                    <div className="modal-body">
-                        Los números que te se te ofrecen indican qué duración deseas en tus salas
-                        {
-                            this.state.categorias.map((cat, index)=> {
-                                return(
-                                    <p key={index}>El <b>{cat.idCategoria}</b> corresponde a la <b>categoría {cat.categoria}</b> con <b>{cat.duracion} minutos</b> de duración</p>
-                                )
-                            })
-                        }
-                    </div>
-                    {/* <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" className="btn btn-primary">Save changes</button>
-                    </div> */}
-                    </div>
-                </div>
-            </div>
-
+            <br/>
             <h2 style={{color:"blue"}}>
               {this.state.mensaje}
             </h2>

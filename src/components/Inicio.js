@@ -3,7 +3,7 @@ import '../style/Inicio.css';
 import Global from "../Global";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
-
+import { Icon } from '@iconify/react';
 export default class Inicio extends Component {
 
   state = {
@@ -33,7 +33,6 @@ export default class Inicio extends Component {
     });
   }
 
-  
   componentDidMount = () => {
     this.Get_Eventos();
     this.Get_Categorias()
@@ -52,21 +51,23 @@ export default class Inicio extends Component {
     );
     }else{
       return (
-      <div className="container-fluid">
         <div className="container-fluid">
           {
             this.state.eventos.map((temp, index)=> {
               return(
-                <div className="card mt-3 mb-2 shadow" key={index}>
+                <div className="card mt-3 mb-2 shadow d-flex justify-content-between mt-3" key={index}>
                   <NavLink className="card-header btn btn-light" to="/salas" >
-                    <span className="card-title d-flex justify-content-center text-decoration-underline fw-bolder">{temp.nombreEvento}</span>
-                  </NavLink>
+                  <div className='d-flex justify-content-between mt-3'>
+                    <span className="card-title d-flex justify-content-center fw-bolder evento">{temp.nombreEvento}</span>
+                    <Icon icon="material-symbols:play-arrow-outline-rounded" color="#0d6efd" width="42" />
+                    </div>
+                    <hr/>
                   <div className="row card-body">
                     <div className="col">
-                      <b>Categorias</b>
+                      <b>Categoría</b>
                     </div>
                     <div className="col">
-                      <b>Tiempo</b>
+                      <b>Duración</b>
                     </div>
                   </div>
                   {
@@ -79,12 +80,12 @@ export default class Inicio extends Component {
                       )
                     })
                   }
+                  </NavLink>
                 </div>
               );
             })
           }
         </div>
-      </div>
       );
     }
   }

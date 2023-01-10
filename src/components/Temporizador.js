@@ -72,10 +72,10 @@ export default class Temporizador extends Component {
         });
       this.setState({
         iniciosTimers: [
-          { inicio: "14:10:20", duracion: 0.5, categoria: "WORK", isRunning: true  },
-          { inicio: "09:27:20", duracion: 0.5, categoria: "BREAK", isRunning: false  },
-          { inicio: "9:29:50", duracion: 1, categoria: "hahahha", isRunning: false  },
-          { inicio: "00:18:30", duracion: 0.6, categoria: "TRABAJO", isRunning: false  }
+          { inicio: "01:21:05", duracion: 25, categoria: "WORK" },
+          { inicio: "01:21:55", duracion: 25, categoria: "BREAK" },
+          { inicio: "9:29:50", duracion: 1, categoria: "KLK" },
+          { inicio: "00:18:30", duracion: 0.6, categoria: "TRABAJO" }
         ],
         timers: iniciosTimersAux,
         sala: sala,
@@ -113,6 +113,7 @@ export default class Temporizador extends Component {
     }
   }
 
+
   cambiarColor = () => {
     const interval = setInterval(() => {
       this.setState({
@@ -122,25 +123,25 @@ export default class Temporizador extends Component {
       if (this.state.tiempoRestante <= 180) {
         this.setState({
           estiloDiv: {
-            backgroundColor: 'orange'
+            color: 'orange'
           }
         });
         if(this.state.tiempoRestante <= 60){
           this.setState({
             estiloDiv: {
-              backgroundColor: '#e3463b'
+              color: '#e3463b'
             }
           });
         }
       } else {
         this.setState({
           estiloDiv: {
-            backgroundColor: 'white'
+            color: 'black'
           }
         });
       }
     }, 1000);
-    // console.log(interval);
+    console.log(interval);
   }
 
   //Cuando cambio de sala
@@ -160,16 +161,19 @@ export default class Temporizador extends Component {
 
   render() {
     return (
-        // <div className="container-fluid mt-4" style={this.state.estiloDiv}>
-          <div className="page-container">
-            <h4>Sala <strong>{this.state.sala}</strong></h4>
-              {localStorage.getItem("Estimate duration") != null ? <CountDownIndv minutes={localStorage.getItem("Estimate duration")}/> : null}
+      <div>
+        <br/>
+        <h1>Sala <strong>{this.state.sala}</strong></h1>
+          <div className="page-container" style={this.state.estiloDiv}>
+            {localStorage.getItem("Estimate duration") != null ? <CountDownIndv minutes={localStorage.getItem("Estimate duration")}/> : null}
+              {/* {localStorage.getItem("Estimate duration") ? (<CountDownIndv className="temp" minutes={localStorage.getItem("Estimate duration")}/>): (<h3 className='display-1 temp'>00:00</h3>)} */}
               {/* <CountDownIndv minutes={localStorage.getItem("countdown")}/> */}
               {/* <CountDownIndv minutes={localStorage.getItem("Estimate duration")}/> */}
-              <DateNow/>
-              <h4>{localStorage.getItem("categoria")}</h4>
             {/* <p>Tiempo total del evento: {this.state.tiempoTotal}</p> */}
+            <DateNow/>
         </div>
+        <h4 className="fixed-bottom">{localStorage.getItem("categoria")}</h4>
+      </div>
     )
   }
 }

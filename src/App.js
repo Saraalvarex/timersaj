@@ -5,8 +5,6 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import $ from 'jquery';
 import Popper from 'popper.js';
 
-
-
 function App() {
   return (
     <div className="App">

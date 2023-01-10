@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import Global from '../Global';
 import axios from 'axios';
-
+import { Icon } from '@iconify/react';
 import './../App.css';
 import CountDownIndv from './Timer/CountdownIndv';
 
 export default class ListaTemporizadores extends Component {
-
   state = {
     salas: [],
     statusSalas: false,
@@ -54,19 +53,19 @@ export default class ListaTemporizadores extends Component {
     console.log(interval);
   }
 
-
   componentDidMount = () => {
     this.Get_Salas();
     this.cambiarColor();
   }
 
-
   render() {
     return(
       <div className='container-fluid'>
         <div className='d-flex justify-content-between mt-3'>
-          <NavLink to="/configuretemp">Añade salas</NavLink>
-          <h1 className='display-2 '>Tus salas</h1>
+        <h1 className='display-2 '>Temporizadores</h1>
+          <NavLink to="/configuretemp">
+          <Icon icon="material-symbols:alarm-add-outline-rounded" color="#0d6efd" width="50" />
+          </NavLink>
         </div>
         <hr/>
         <div className='container-fluid'>
@@ -75,7 +74,8 @@ export default class ListaTemporizadores extends Component {
           (
             this.state.salas.map((sala, index)=> {
               return(
-                <div key={index} className="card mb-3 container-fluid" style={this.state.estiloDiv}>
+                <div key={index} className="card mb-3 container-fluid card-container" style={this.state.estiloDiv}>
+                  <h5 className="card-title">Sala: {sala.sala}</h5>
                   <div className="card-img-top">
                     {
                       localStorage.getItem("countdown") ?
@@ -84,9 +84,8 @@ export default class ListaTemporizadores extends Component {
                     }
                   </div>
                   <div className="card-body">
-                    <h5 className="card-title">Sala: {sala.sala}</h5>
                     <p className="card-text">Empresa: {sala.empresa}</p>
-                    <NavLink to={"/temporizador/"+sala.idSala} className="btn btn-primary">Temporizador</NavLink>
+                    <NavLink to={"/temporizador/"+sala.idSala} className="btn btn-primary">Iniciar</NavLink>
                   </div>
                 </div>
               );

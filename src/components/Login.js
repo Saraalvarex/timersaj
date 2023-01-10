@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import axios from 'axios'
 import Global from '../Global'
-
+import { Icon } from '@iconify/react';
 export default class Login extends Component {
 
     cajaUserRef = React.createRef();
@@ -42,8 +42,8 @@ export default class Login extends Component {
     return (
       <div>
         <div className='container-fluid'>
-          <div className='d-flex justify-content-between mt-3'>
-            <NavLink to="/">Volver</NavLink>
+        <div className='d-flex justify-content-between mt-3'>
+            <NavLink to="/"><Icon icon="line-md:chevron-left-circle" color="#0d6efd" width="50" /></NavLink>
           </div>
             <h1 className='display-2 mt-3'>Login</h1>
             <br/>
@@ -58,11 +58,10 @@ export default class Login extends Component {
                     </div>
                 </div>
                 <br/>
-              <button className='btn btn-info' onClick={this.iniciarSesion}>
+              <button className='btn btn-outline-primary' onClick={this.iniciarSesion}>
                 Iniciar sesión
               </button>
             </form>
-            <hr/>
             <h2 className = "text-info">{this.state.mensaje}</h2>
         </div>
       </div>

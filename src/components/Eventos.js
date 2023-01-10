@@ -32,16 +32,16 @@ componentDidMount = () => {
             <div className='col'></div>
             <div className='col-8'>
                 <form>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Nombre </label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
+                <div className="mb-3">
+                    <label for="exampleInputEmail1" className="form-label">Nombre </label>
+                    <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
                 </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Imagen </label>
-                    <input type="password" class="form-control" id="exampleInputPassword1"/>
-                    <div id="emailHelp" class="form-text">Indica la url del logo de la empresa</div>
+                <div classNameName="mb-3">
+                    <label for="exampleInputPassword1" className="form-label">Imagen </label>
+                    <input type="password" className="form-control" id="exampleInputPassword1"/>
+                    <div id="emailHelp" className="form-text">Indica la url del logo de la empresa</div>
                 </div>
-                <button type="submit" class="btn btn-primary">Añadir</button>
+                <button type="submit" className="btn btn-primary">Añadir</button>
                 </form>
             </div>
             <div className='col'></div>
@@ -54,11 +54,11 @@ componentDidMount = () => {
             (
                 this.state.eventos.map((evento, index)=> {
                     return(
-                        <div key={index} class="card m-3" style={{width: "20rem"}}>
-                        <div class="card-body">
-                            <h5 class="card-title">{evento.nombreEvento}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Inicio: {evento.inicioEvento}</h6>
-                            <h6 class="card-subtitle mb-2 text-muted">Final: {evento.finEvento}</h6>
+                        <div key={index} className="card m-3" style={{width: "20rem"}}>
+                        <div className="card-body">
+                            <h5 className="card-title">{evento.nombreEvento}</h5>
+                            <h6 className="card-subtitle mb-2 text-muted">Inicio: {evento.inicioEvento}</h6>
+                            <h6 className="card-subtitle mb-2 text-muted">Final: {evento.finEvento}</h6>
                             
                         </div>
                     </div>

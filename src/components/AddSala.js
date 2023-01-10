@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Global from '../Global';
 import { NavLink } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 
 export default class AddSala extends Component {
   cajaNombreRef = React.createRef();
@@ -32,10 +33,10 @@ export default class AddSala extends Component {
 
   render() {
     return (
-
       <div className='container-fluid'>
           <div className='d-flex justify-content-between mt-3'>
-            <NavLink to="/creartemporizadorpag1">Atrás</NavLink>
+            {/* <NavLink to="/creartemporizadorpag1">Atrás</NavLink> */}
+            <NavLink to="/creartemporizadorpag1"><Icon icon="line-md:chevron-left-circle" color="#0d6efd" width="50" /></NavLink>
           </div>
             <h1 className='display-2 mt-3'>Añadir salas</h1>
             <br/>
