@@ -165,12 +165,12 @@ export default class Temporizador extends Component {
         <br/>
         <h1>Sala <strong>{this.state.sala}</strong></h1>
           <div className="page-container" style={this.state.estiloDiv}>
-            {localStorage.getItem("Estimate duration") != null ? <CountDownIndv minutes={localStorage.getItem("Estimate duration")}/> : null}
+            {localStorage.getItem("Estimate duration") != null ? <CountDownIndv className="temp" minutes={localStorage.getItem("Estimate duration")}/> : null}
               {/* {localStorage.getItem("Estimate duration") ? (<CountDownIndv className="temp" minutes={localStorage.getItem("Estimate duration")}/>): (<h3 className='display-1 temp'>00:00</h3>)} */}
               {/* <CountDownIndv minutes={localStorage.getItem("countdown")}/> */}
               {/* <CountDownIndv minutes={localStorage.getItem("Estimate duration")}/> */}
             {/* <p>Tiempo total del evento: {this.state.tiempoTotal}</p> */}
-            <DateNow/>
+            {/* <DateNow/> */}
         </div>
         <h4 className="fixed-bottom">{localStorage.getItem("categoria")}</h4>
       </div>
